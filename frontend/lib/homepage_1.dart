@@ -17,7 +17,7 @@ class HomePage1 extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -38,6 +38,10 @@ class HomePage1 extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all(Colors.white),
                   ),
                 ),
+                SizedBox(
+                  //ボタンの間隔
+                  width: 10,
+                ),
                 ElevatedButton(
                   //調理可ボタン
                   onPressed: () {},
@@ -47,18 +51,23 @@ class HomePage1 extends StatelessWidget {
                       color: Colors.blue,
                     ),
                   ),
+
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.white),
                   ),
                 ),
+                SizedBox(
+                  width: 10,
+                ),
               ],
             ),
-            Card(
-              child: Container(
-                height: 50,
-                color: Colors.blue,
+            for (var i = 0; i < 13; i++)
+              Card(
+                child: Container(
+                  height: 100,
+                  color: Colors.blue,
+                ),
               ),
-            ),
             // Container(
             //   width: 400,
             //   height: 100,
