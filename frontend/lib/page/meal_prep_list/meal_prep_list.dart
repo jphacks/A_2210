@@ -16,16 +16,12 @@ Widget MealContent(String s) {
               onDismissed: (direction) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                      content: Text('「${mealList[index]}」を削除しました'),
-                      action: SnackBarAction(
-                        label: '元に戻す',
-                        onPressed: () {
-                          Navigator.push(
-                            context, 
-                            MaterialPageRoute(builder:  (context) => MealListEdit()),
-                          );
-                        },
-                      )),
+                    content: Text('「${mealList[index]}」を削除しました'),
+                    action: SnackBarAction(
+                      label: '元に戻す',
+                      onPressed: () {},
+                    )
+                  ),
                 );
               },
               child: Card(
@@ -68,12 +64,7 @@ class MealListEdit extends StatelessWidget {
           InputMealIngredient('食材4'),
           InputMealIngredient('食材5'),
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder:  (context) => MealContent('作り置きリスト')),
-              );
-            }, 
+            onPressed: () {}, 
             child: const Text('確定'),
           )
         ],
