@@ -17,27 +17,6 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   List<String> titleList = ["ホーム", "レシピ", "作り置きリスト"];
   List iconList = [Icons.home, Icons.search, Icons.school];
-  // TODO : dataListの型定義
-  List dataList = [];
-
-  void fetchIngredients() async {
-    final dio = Dio();
-    final id = dotenv.get('APPLICATION_ID');
-    final key = dotenv.get('API_KEY');
-    final url = 'https://api.airtable.com/v0/${id}/ingredients?api_key=${key}';
-    final response = await dio.get(url);
-
-    if (response.statusCode == 200) {
-      try {
-        final data = response.data;
-        setState(() {
-          dataList = data["records"];
-        });
-      } catch (e) {
-        throw e;
-      }
-    }
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -54,8 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: _bodyContents(
           _selectedIndex,
-          fetchIngredients,
-          dataList,
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -78,15 +55,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Widget _bodyContents(int id, Function fetchIngredients, List dataList) {
+Widget _bodyContents(int id) {
   switch (id) {
     case 0:
-      return HomeContent("hoge", dataList);
+      return HomeContent('homeですん');
     case 1:
-      return /* RecipeContent(); */ OutlinedButton(
-          onPressed: () => fetchIngredients(), child: Text('api通信開始'));
+      return RecipeContent('レシピですん');
     case 2:
-      return MealContent();
+      return MealContent('作り置きリストですん');
     default:
       return Text('this is error');
   }

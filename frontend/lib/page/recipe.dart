@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
-Widget RecipeContent() {
-  return (Text("レシピ"));
+Widget RecipeContent(String content) {
+  return (Text(content));
 }
