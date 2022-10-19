@@ -17,6 +17,7 @@ Widget HomeContent(
         DropdownMenuItem(
             child: Text(ingredientNameList[j]), value: ingredientNameList[j])
     ], onChanged: (value) => {isSelectedItem = "じゃがいも"}, value: isSelectedItem),
+    Text(dataList.toString())
   ]));
   /* DropdownButton(items: [DropdownMenuItem(child: "child" ,value: "hoge")], onChanged: onChanged)); */
 }
