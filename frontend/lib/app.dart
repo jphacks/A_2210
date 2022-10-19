@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import 'page/home.dart';
+import 'page/meal_prep_list.dart';
+import 'page/recipe.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+  List<String> titleList = ["ホーム", "レシピ", "作り置きリスト"];
+  List iconList = [Icons.home, Icons.search, Icons.school];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: Drawer(),
+      appBar: AppBar(title: Text(titleList[_selectedIndex]), actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () => {},
+        )
+      ]),
+      body: Center(
+        child: _bodyContents(
+          _selectedIndex,
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: <BottomNavigationBarItem>[
+          for (var i = 0; i < titleList.length; i++)
+            BottomNavigationBarItem(
+              icon: Icon(iconList[i]),
+              label: titleList[i],
+            ),
+        ],
+        enableFeedback: true,
+        iconSize: 23,
+        selectedFontSize: 15,
+        selectedIconTheme: const IconThemeData(size: 28),
+        unselectedFontSize: 13,
+      ),
+    );
+  }
+}
+
+Widget _bodyContents(int id) {
+  switch (id) {
+    case 0:
+      return HomeContent('homeですん');
+    case 1:
+      return RecipeContent('レシピですん');
+    case 2:
+      return MealContent('作り置きリストですん');
+    default:
+      return Text('this is error');
+  }
+}
