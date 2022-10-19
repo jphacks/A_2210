@@ -27,9 +27,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(titleList[_selectedIndex]),
-      ),
+      drawer: Drawer(),
+      appBar: AppBar(title: Text(titleList[_selectedIndex]), actions: [
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () => {},
+        )
+      ]),
       body: Center(
         child: _bodyContents(
           _selectedIndex,
@@ -46,10 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
         ],
         enableFeedback: true,
-        iconSize: 25,
-        selectedFontSize: 20,
-        selectedIconTheme: const IconThemeData(size: 30),
-        unselectedFontSize: 15,
+        iconSize: 23,
+        selectedFontSize: 15,
+        selectedIconTheme: const IconThemeData(size: 28),
+        unselectedFontSize: 13,
       ),
     );
   }
