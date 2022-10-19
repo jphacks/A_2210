@@ -80,7 +80,7 @@ Widget _bodyContents(int id, Function fetchIngredients, List dataList) {
     case 1:
       return RecipeContent('レシピですん');
     case 2:
-      return MealContent('作り置きリストですん');
+      return MealContent();
     default:
       return Text('this is error');
   }
