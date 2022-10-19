@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../common/AddButton.dart';
 
-Widget MealContent() {
+Widget MealContent(String s) {
   List<String> mealList = ['料理名1', '料理名2'];
   return Scaffold(
     floatingActionButton: AddButton(),

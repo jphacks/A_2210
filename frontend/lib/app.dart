@@ -3,7 +3,6 @@ import 'page/home.dart';
 import 'page/meal_prep_list.dart';
 import 'page/recipe.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -17,6 +16,23 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   List<String> titleList = ["ホーム", "レシピ", "作り置きリスト"];
   List iconList = [Icons.home, Icons.search, Icons.school];
+  // TODO : dataListの型定義
+  List dataList = [];
+
+  fetchIngredients() async {
+    final dio = Dio();
+    const url = "https://api.airtable.com/v0/apphMJn3OcStZkcT9/ingredients";
+    final response = await dio.get(url);
+
+    if (response.statusCode == 200) {
+      try {
+        final data = response.data;
+        return data["fields"];
+      } catch (e) {
+        throw e;
+      }
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -27,16 +43,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
-      appBar: AppBar(title: Text(titleList[_selectedIndex]), actions: [
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () => {},
-        )
-      ]),
+      appBar: AppBar(
+        title: Text(titleList[_selectedIndex]),
+      ),
       body: Center(
         child: _bodyContents(
           _selectedIndex,
+          fetchIngredients,
+          dataList,
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -50,16 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
         ],
         enableFeedback: true,
-        iconSize: 23,
-        selectedFontSize: 15,
-        selectedIconTheme: const IconThemeData(size: 28),
-        unselectedFontSize: 13,
+        iconSize: 25,
+        selectedFontSize: 20,
+        selectedIconTheme: const IconThemeData(size: 30),
+        unselectedFontSize: 15,
       ),
     );
   }
 }
 
-Widget _bodyContents(int id) {
+Widget _bodyContents(int id, Function fetchIngredients, List dataList) {
   switch (id) {
     case 0:
       return HomeContent('homeですん');
