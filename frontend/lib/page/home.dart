@@ -78,7 +78,7 @@ Widget HomeContent(
                       bottom: 16,
                       right: 16,
                       left: 16,
-                      child: Text('ora'),
+                      child: Text('www'),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16).copyWith(bottom: 0),
