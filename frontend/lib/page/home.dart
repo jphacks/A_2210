@@ -3,13 +3,7 @@ import 'package:frontend/main.dart';
 
 Widget HomeContent(
   String text,
-  List dataList,
 ) {
-  List ingredientNameList = ["にんじん"];
-  String? isSelectedItem = "にんじん";
-
-  for (var i = 0; i < dataList.length; i++)
-    ingredientNameList.add(dataList[i]["fields"]["Name"].toString());
   return Scaffold(
     body: SingleChildScrollView(
       child: Column(
