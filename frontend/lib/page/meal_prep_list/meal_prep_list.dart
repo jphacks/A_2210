@@ -31,7 +31,7 @@ Widget MealContent(String s) {
                       title: Text('${mealList[index]}', style: const TextStyle(fontSize: 24.0)),
                     ),
                     ListTile(
-                      title: Text('${elapsedDay[index]}日'),
+                      title: Text('${elapsedDay[index]}day'),
                     ),
                     ListTile(
                       title: Text('食材'),
