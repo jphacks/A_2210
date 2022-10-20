@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/AddButton.dart';
 import 'package:frontend/main.dart';
+import 'package:flutter/cupertino.dart';
 
 Widget HomeContent(
   String text,
@@ -13,7 +14,11 @@ Widget HomeContent(
         FloatingActionButton(
           onPressed: () {},
           child: const Icon(Icons.add),
-        )
+        ),
+        FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(CupertinoIcons.barcode),
+        ),
       ],
     ),
     body: SingleChildScrollView(
