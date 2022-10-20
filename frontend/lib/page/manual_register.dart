@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 
 class ManualRegister extends StatefulWidget {
   final List? dataList;
@@ -13,6 +14,9 @@ class ManualRegister extends StatefulWidget {
 class _ManualRegister extends State<ManualRegister> {
   List<String> ingredientNameList = ["にんじん", "じゃがいも", "お芋"];
   String? _isSelectedItem = "にんじん";
+  double _volume = 0;
+  TextEditingController _date = TextEditingController(text: "value");
+  String? _formatedDate;
 
   void postIngredient() async {
     final dio = Dio();
@@ -23,8 +27,8 @@ class _ManualRegister extends State<ManualRegister> {
         {
           "fields": {
             "name": _isSelectedItem,
-            "volume": "2.0",
-            "limit": "2022-10-28"
+            "volume": _volume.toString(),
+            "limit": _formatedDate
           }
         }
       ]
@@ -71,6 +75,69 @@ class _ManualRegister extends State<ManualRegister> {
             value: _isSelectedItem,
           ),
           SizedBox(height: 30),
+          Row(
+            children: [
+              if (_volume > 0)
+                OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        _volume = _volume - 0.5;
+                      });
+                    },
+                    child: Icon(Icons.remove)),
+              Text(_volume == 0.0 ? '0' : _volume.toString()),
+              OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      _volume = _volume + 0.5;
+                    });
+                  },
+                  child: Icon(Icons.add))
+            ],
+          ),
+          TextField(
+            controller: _date,
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: '日付',
+              // inputの端にカレンダーアイコンをつける
+              suffixIcon: IconButton(
+                icon: Icon(Icons.calendar_today),
+                onPressed: () async {
+                  // textFieldがの値からデフォルトの日付を取得する
+                  DateTime initDate = DateTime.now();
+                  try {
+                    initDate = DateFormat('yyyy/MM/dd').parse(_date.text);
+                  } catch (_) {}
+
+                  // DatePickerを表示する
+                  DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: initDate,
+                    firstDate: DateTime(2016),
+                    lastDate: DateTime.now().add(
+                      Duration(days: 360),
+                    ),
+                  );
+
+                  // DatePickerで取得した日付を文字列に変換
+                  String? formatedDate;
+                  try {
+                    formatedDate = DateFormat('yyyy/MM/dd').format(picked!);
+                    setState(() {
+                      _formatedDate = formatedDate;
+                    });
+                  } catch (_) {}
+                  if (formatedDate != null) {
+                    _date.text = formatedDate;
+                  }
+                },
+              ),
+              // labelText: 'Password',
+            ),
+          ),
           OutlinedButton(
               onPressed: () => {postIngredient()}, child: Text('確定')),
         ])));
