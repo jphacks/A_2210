@@ -4,7 +4,7 @@ import '../common/AddButton.dart';
 Widget MealContent(String s) {
   List<String> mealList = ['料理名1', '料理名2'];
   return Scaffold(
-    floatingActionButton: AddButton(),
+    floatingActionButton: AddButton(() {}),
     body: Container(
       child: ListView.builder(
           itemCount: mealList.length,

@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/AddButton.dart';
 import 'package:frontend/main.dart';
+import '../common/AddButton.dart';
+import '../page/manual_register.dart';
 
 Widget HomeContent(
-  String text,
-) {
+    BuildContext context, List dataList, Function fetchIngredient) {
   return Scaffold(
+    floatingActionButton: AddButton(() {
+      fetchIngredient();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ManualRegister(dataList: dataList)),
+      );
+    }),
     body: SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
