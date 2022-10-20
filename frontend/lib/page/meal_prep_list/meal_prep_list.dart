@@ -4,7 +4,8 @@ import '../../common/AddButton.dart';
 Widget MealContent(String s) {
   List<String> mealList = ['料理名1', '料理名2'];
   List<List<String>> ingredientLists = [['食材1', '食材2'], ['食材3', '食材4']];
-  List<int> elapsedDay = [1, 2];
+  List<int> elapsedDay = [1, 5];
+  List<Color> colors = [Colors.white,Colors.yellow, Colors.red];
   return Scaffold(
     floatingActionButton: AddButton(),
     body: Container(
@@ -32,6 +33,7 @@ Widget MealContent(String s) {
                     ),
                     ListTile(
                       title: Text('${elapsedDay[index]}day'),
+                      tileColor: colors[(elapsedDay[index] > 2 ? 1: 0) + (elapsedDay[index] > 4 ? 1: 0)],
                     ),
                     ListTile(
                       title: Text('食材'),
