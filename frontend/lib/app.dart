@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/page/home/home_detailFood.dart';
 import 'page/home/home.dart';
 
 import 'page/meal_prep_list/meal_prep_list.dart';
@@ -79,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 Widget _bodyContents(int id, Function fetchIngredients, List dataList) {
   switch (id) {
     case 0:
-      return HomeContent('ホーム');
+      return HomeContent('ホームですん');
     case 1:
       return RecipeContent('レシピですん');
     case 2:
