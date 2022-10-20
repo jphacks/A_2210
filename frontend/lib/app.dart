@@ -3,9 +3,7 @@ import 'page/home/home.dart';
 
 import 'page/meal_prep_list/meal_prep_list.dart';
 
-
-
-import 'page/recipe.dart';
+import 'page/recipe/recipe.dart';
 
 import 'package:dio/dio.dart';
 
