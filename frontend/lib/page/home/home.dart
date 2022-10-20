@@ -6,7 +6,25 @@ import 'package:flutter/cupertino.dart';
 Widget HomeContent(
   String text,
 ) {
-  List<String> imageslist = [
+  List<String> ExpiryDateList = [
+    '2022/02/02',
+    '2021/10/03',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+  List<String> ImagesList = [
     '写真1',
     '写真2',
     '',
@@ -24,7 +42,7 @@ Widget HomeContent(
     '',
     '',
   ];
-  List<String> storelist = [
+  List<String> StoreList = [
     'にんじん',
     'ジャガイモ',
     '',
@@ -44,15 +62,12 @@ Widget HomeContent(
   ];
 
   return Scaffold(
-    floatingActionButton: Row(
+    floatingActionButton: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         FloatingActionButton(
           onPressed: () {},
           child: const Icon(CupertinoIcons.barcode),
-        ),
-        SizedBox(
-          width: 220,
         ),
         FloatingActionButton(
           onPressed: () {},
@@ -108,14 +123,14 @@ Widget HomeContent(
           ),
           Flexible(
             child: ListView.builder(
-              itemCount: storelist.length,
+              itemCount: StoreList.length,
               itemBuilder: (BuildContext context, int index) {
                 return Dismissible(
                   key: UniqueKey(),
                   onDismissed: (direction) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('「${storelist[index]}」を削除しました'),
+                        content: Text('「${StoreList[index]}」を削除しました'),
                         action: SnackBarAction(
                           label: '元に戻す',
                           onPressed: () {},
@@ -125,8 +140,13 @@ Widget HomeContent(
                   },
                   child: Card(
                     child: ListTile(
-                      title: Text('${storelist[index]}\n'),
-                      trailing: Text('${imageslist[index]}\n'),
+                      title: Text('${ImagesList[index]}\n'),
+                      trailing: Column(
+                        children: [
+                          Text('${StoreList[index]}'),
+                          Text('${ExpiryDateList[index]}'),
+                        ],
+                      ),
                     ),
                   ),
                 );

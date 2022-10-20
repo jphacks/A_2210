@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'page/home.dart';
+import 'page/home/home.dart';
 import 'page/meal_prep_list.dart';
 import 'page/recipe.dart';
 import 'package:dio/dio.dart';
