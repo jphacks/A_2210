@@ -4,7 +4,7 @@ import '../../common/AddButton.dart';
 Widget MealContent(String s) {
   List<String> mealList = ['料理名1', '料理名2'];
   List<List<String>> ingredientLists = [['食材1', '食材2'], ['食材3', '食材4']];
-  List<int> elapsedDay = [1, 1];
+  List<int> elapsedDay = [1, 2];
   return Scaffold(
     floatingActionButton: AddButton(),
     body: Container(
@@ -39,7 +39,10 @@ Widget MealContent(String s) {
                     ),
                     Container(
                       alignment: Alignment.centerRight,
-                      child: ElevatedButton(onPressed: (){}, child: Text('編集'))
+                      child: ElevatedButton(
+                        onPressed: (){}, 
+                        child: Text('編集')
+                      )
                     )
                   ],
                 ),
@@ -57,15 +60,21 @@ class MealListEdit extends StatelessWidget {
     body: Container(
       child: Column(
         children: <Widget>[
-          InputMealIngredient('料理名'),
+          Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: InputMealIngredient('料理名'),
+          ),
           InputMealIngredient('食材1'),
           InputMealIngredient('食材2'),
           InputMealIngredient('食材3'),
           InputMealIngredient('食材4'),
           InputMealIngredient('食材5'),
-          ElevatedButton(
-            onPressed: () {}, 
-            child: const Text('確定'),
+          Container(
+            alignment: Alignment.centerRight,
+            child:ElevatedButton(
+              onPressed: () {}, 
+              child: const Text('確定'),
+            ),
           )
         ],
       ),
@@ -74,10 +83,13 @@ class MealListEdit extends StatelessWidget {
   }
 }
 
-Widget InputMealIngredient(String hint) {
-  return TextField(
+Widget InputMealIngredient(String label) {
+  return Card(
+    child: TextField(  
       decoration: InputDecoration(
-    border: InputBorder.none,
-    hintText: hint,
-  ));
+        border: InputBorder.none,
+        labelText: label,
+      )
+    ),
+  );
 }
