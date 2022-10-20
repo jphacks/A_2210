@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
 Widget _bodyContents(int id, Function fetchIngredients, List dataList) {
   switch (id) {
     case 0:
-      return DetaileFood();
+      return HomeContent('ホーム');
     case 1:
       return RecipeContent('レシピですん');
     case 2:
