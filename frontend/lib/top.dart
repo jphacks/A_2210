@@ -62,7 +62,15 @@ class _TopPage extends State<TopPage> {
                       fetchIngredientsStack: fetchIngredientsStack)),
             );
           },
-          child: Text('スタート'))
+          child: Text('スタート')),
+      /* SizedBox(
+          height: 50,
+          width: 50,
+          child: Image.network(
+              "https://dl.airtable.com/.attachments/44e5c2a7fee1efd608d609e0d4373534/bdd0d7c8/food_yakisoba.png")) */
+      /* CachedNetworkImage(
+          imageUrl:
+              "https://dl.airtable.com/.attachments/44e5c2a7fee1efd608d609e0d4373534/bdd0d7c8/food_yakisoba.png"), */
     ])));
   }
 }

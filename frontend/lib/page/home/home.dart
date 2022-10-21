@@ -108,7 +108,7 @@ Widget HomeContent(
                       SnackBar(
                         //削除したときに「元に戻す」スナックバー
                         content: Text(
-                            '「${ingredientsStockList[index]["fields"]["name"]}'),
+                            '{${ingredientsStockList[index]["fields"]["name"]}'),
                         action: SnackBarAction(
                           label: '元に戻す',
                           onPressed: () {},
@@ -123,19 +123,30 @@ Widget HomeContent(
                       child: Column(
                         children: [
                           ListTile(
+                            leading: ingredientsStockList[index]["fields"]
+                                        ["image"] !=
+                                    null
+                                ? SizedBox(
+                                    height: 110,
+                                    child: Image.network(
+                                        "${ingredientsStockList[index]["fields"]["image"][0]["url"]}"))
+                                : Text(
+                                    "${ingredientsStockList[index]["fields"]["image"].toString()}"),
                             title: Column(
                               children: [
                                 Text(
-                                  '', //写真にする予定
-                                ),
-                                Text(
                                   '${ingredientsStockList[index]["fields"]["name"]}',
                                   textAlign: TextAlign.center,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                Text('aa'),
-                                Text(""),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                    '${ingredientsStockList[index]["fields"]["memo"]}'),
                               ],
                             ),
+                            trailing: Text('調理可'),
                           ),
                         ],
                       ),
