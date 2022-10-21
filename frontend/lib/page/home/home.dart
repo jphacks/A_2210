@@ -14,8 +14,12 @@ Widget HomeContent(
   BuildContext context,
   List? dataList,
   Function fetchIngredient,
+  Function togglebuttononPressed,
+  List<bool> _toggleList,
 ) {
   //仮のテスト用変数
+
+  bool vertical = false;
   bool onpressedCancook = true; //調理可のボタンのデザイン変化
   bool onpressedCantcook = true; //調理不可のボタンのデザイン変化
   int daysRemain = 1; //賞味期限
@@ -34,7 +38,7 @@ Widget HomeContent(
           heroTag: "hero1",
         ),
         AddButton(() {
-          fetchIngredient();
+          //fetchIngredient();
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -45,59 +49,91 @@ Widget HomeContent(
     ),
     body: Scrollbar(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              SizedBox(
+                height: 10,
+              ),
+              //TODO：両方押さない機能
+              ToggleButtons(
+                direction: vertical ? Axis.vertical : Axis.horizontal,
+                onPressed: (int? index) {
+                  togglebuttononPressed(index);
+                },
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                selectedBorderColor: Colors.indigo,
+                selectedColor: Colors.indigo,
+                fillColor: Colors.indigo,
+                color: Colors.white,
+                constraints: const BoxConstraints(
+                  minHeight: 40.0,
+                  minWidth: 80.0,
+                ),
                 children: [
-                  ElevatedButton(
-                    //調理不可ボタン
-                    onPressed: () {
-                      onpressedCancook = !onpressedCantcook;
-                    },
-                    child: Text(
-                      "調理不可",
-                      style: TextStyle(
-                        color: Colors.indigo,
-                      ),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
+                  Text(
+                    "調理可",
+                    style: TextStyle(
+                        color: _toggleList[0] ? Colors.white : Colors.indigo),
                   ),
-                  SizedBox(
-                    //ボタンの間隔
-                    width: 10,
-                  ),
-                  ElevatedButton(
-                    //調理可ボタン
-                    onPressed: () {},
-                    child: Text(
-                      "調理可",
-                      style: TextStyle(
-                        color: Colors.indigo,
-                      ),
-                    ),
-
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
+                  Text(
+                    "調理不可",
+                    style: TextStyle(
+                        color: _toggleList[1] ? Colors.white : Colors.indigo),
                   ),
                 ],
-              ),
+                isSelected: _toggleList,
+              )
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     ElevatedButton(
+              //       //調理不可ボタン
+              //       onPressed: () {
+              //         onpressedCancook = !onpressedCantcook;
+              //       },
+              //       child: Text(
+              //         "調理不可",
+              //         style: TextStyle(
+              //           color: Colors.indigo,
+              //         ),
+              //       ),
+              //       style: ButtonStyle(
+              //         backgroundColor: MaterialStateProperty.all(Colors.white),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       //ボタンの間隔
+              //       width: 10,
+              //     ),
+              //     ElevatedButton(
+              //       //調理可ボタン
+              //       onPressed: () {},
+              //       child: Text(
+              //         "調理可",
+              //         style: TextStyle(
+              //           color: Colors.indigo,
+              //         ),
+              //       ),
+
+              //       style: ButtonStyle(
+              //         backgroundColor: MaterialStateProperty.all(Colors.white),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 10,
+              //     ),
+              //   ],
+              // ),
             ],
           ),
           StoreList.isEmpty
               //商品が未登録の場合
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('まずは登録してみよう！！'),
-                  ],
+              ? Center(
+                  child: (Text(
+                    'まずは登録してみよう！！',
+                  )),
                 )
               //商品が登録している場合
               : Flexible(
