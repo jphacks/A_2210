@@ -31,9 +31,9 @@
 * 簡単に食材を登録することができる。
 
 ## 開発技術
-・Flutter 
-・Figma
-・Airtable
+*Flutter 
+*Figma
+*Airtable
 ### 活用した技術
 #### API・データ
 * 
