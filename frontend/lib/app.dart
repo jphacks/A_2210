@@ -7,6 +7,7 @@ import 'page/meal_prep_list/meal_prep_list.dart';
 import 'page/recipe/recipe.dart';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -23,15 +24,22 @@ class _MyHomePageState extends State<MyHomePage> {
   // TODO : dataListの型定義
   List dataList = [];
 
-  fetchIngredients() async {
+  void fetchIngredients() async {
     final dio = Dio();
-    const url = "https://api.airtable.com/v0/apphMJn3OcStZkcT9/ingredients";
-    final response = await dio.get(url);
+    final id = dotenv.get('APPLICATION_ID');
+    final key = dotenv.get('API_KEY');
+    final url = 'https://api.airtable.com/v0/$id/ingredients';
+    final response = await dio.get(url,
+        options: Options(
+          headers: {"Authorization": "Bearer $key"},
+        ));
 
     if (response.statusCode == 200) {
       try {
         final data = response.data;
-        return data["fields"];
+        setState(() {
+          dataList = data["records"];
+        });
       } catch (e) {
         throw e;
       }
@@ -52,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: _bodyContents(
+          context,
           _selectedIndex,
           fetchIngredients,
           dataList,
@@ -77,10 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Widget _bodyContents(int id, Function fetchIngredients, List dataList) {
+Widget _bodyContents(
+    BuildContext context, int id, Function fetchIngredients, List dataList) {
   switch (id) {
     case 0:
-      return HomeContent('ホームですん');
+      return HomeContent(context, dataList, fetchIngredients);
     case 1:
       return RecipeContent('レシピですん');
     case 2:
