@@ -22,10 +22,17 @@ class _AppState extends State<App> {
   int _selectedIndex = 0;
   List<String> titleList = ["ホーム", "レシピ", "作り置きリスト"];
   List iconList = [Icons.home, Icons.search, Icons.school];
+  var _toggleList = <bool>[false, false];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  void togglebuttonOnpressed(int index) {
+    setState(() {
+      _toggleList[index] = !_toggleList[index];
     });
   }
 
@@ -40,7 +47,8 @@ class _AppState extends State<App> {
           // 引数が多くなってしまうため、Widget化せずに直接書く
           // switch文が使えないから三項演算子で書いてるけど、もっといい方法ある？
           child: _selectedIndex == 0
-              ? HomeContent(context, widget.dataList, widget.fetchIngredients)
+              ? HomeContent(context, widget.dataList, widget.fetchIngredients,
+                  togglebuttonOnpressed, _toggleList)
               : _selectedIndex == 1
                   ? RecipeContent('レシピですん')
                   : _selectedIndex == 2
