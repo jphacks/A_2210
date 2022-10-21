@@ -5,82 +5,135 @@ import 'package:frontend/main.dart';
 import 'package:flutter/cupertino.dart';
 
 /// -------------------sagara-------------------
-const int thretholdAttention = 4; // 「注意」表示日数
-const int thretholdHazard = 2; // 「警告」表示日数
+/// ----------------------
+/// デバッグ用変数 (後で要連携)
+/// 調理可能かどうか (可能 -> true, 不可能 -> false)
+bool canCook = true;
+
+/// 残り日数
+int daysRemain = 2;
+
+///----------------------
+
+/// 「注意」表示日数
+const int thretholdAttention = 4;
+
+/// 「警告」表示日数
+const int thretholdHazard = 2;
 
 // ignore: non_constant_identifier_names
 Widget DetailFood() {
-  // テスト用変数
-  bool canCook = true;
-  int daysRemain = 1;
+  /// 食品画像表示部の横幅と縦幅
+  const double widthOfPictureArea = 900;
+  const double heightOfPictureArea = 100;
 
-  List<Color> colorsForAttension = <Color>[];
-  colorsForAttension = attensionColor(daysRemain);
+  /// ボタンの色(紫)
+  const Color buttonColor = Color.fromARGB(255, 98, 0, 238);
 
+  /// インジケータ表示部の文字色
+  Color colorsForTextAttension = attensionTextColor(daysRemain);
+
+  /// インジケータ表示部の背景色
+  List<Color> colorsForBgAttension = <Color>[];
+  colorsForBgAttension = attensionBgColor(daysRemain);
+
+  /* --------------- */
   return Scaffold(
     body: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        /// 「戻る」ボタンの表示
         TextButton(
-          style: TextButton.styleFrom(backgroundColor: Colors.purple),
+          style: TextButton.styleFrom(backgroundColor: buttonColor),
           onPressed: () {}, // Home画面に戻る
-          child: const Text('戻る'),
+          child: const Text("戻る",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white)),
         ),
-        Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-          Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.blueGrey),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Center(child: isCookText(canCook))),
-          Container(
-              decoration: BoxDecoration(
-                color: colorsForAttension[0],
-                border: Border.all(color: colorsForAttension[1]),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Center(child: attentionText(daysRemain))),
-        ]),
-        Container(
-          color: Colors.blueGrey,
-          width: 900,
-          height: 100,
-        ),
+
+        /// 「調理可(or不可)」ラベル・残り日数インジケータ
+        Center(
+            child: SizedBox(
+                width: widthOfPictureArea,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      /// 「調理可」または「調理不可」ラベルの表示
+                      Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Center(
+                              child: Text(isCookText(canCook),
+                                  textAlign: TextAlign.center))),
+
+                      /// 残り日数インジケータの表示
+                      Container(
+                          decoration: BoxDecoration(
+                            color: colorsForBgAttension[0],
+                            border: Border.all(color: colorsForBgAttension[1]),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Center(
+                              child: Text(attentionText(daysRemain),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: colorsForTextAttension)))),
+                    ]))),
+
+        /// 食品画像等の表示 (要差し替え)
+        Center(
+            child: Container(
+                margin: const EdgeInsets.only(top: 7),
+                color: Colors.blueGrey,
+                width: widthOfPictureArea,
+                height: heightOfPictureArea,
+                child: Text("ここに画像などを表示(たかみなさんのコンポーネントを使う予定)",
+                    textAlign: TextAlign.center))),
       ],
     ),
   );
 }
 
-/// 「調理可」「調理不可」のテキスト
-Text isCookText(bool canCook) {
+/// ----------↓ functions ↓----------
+///
+/// 「調理可」「調理不可」のテキストを返す
+String isCookText(bool canCook) {
   if (canCook) {
-    return const Text("調理可");
+    return "調理可";
   } else {
-    return const Text("調理不可");
+    return "調理不可";
   }
 }
 
-/// 残り日数インジケータ表示部分のテキスト
-Text attentionText(int daysRemain) {
+/// 残り日数インジケータ表示部分のテキストを返す
+String attentionText(int daysRemain) {
   if (daysRemain <= thretholdHazard) {
-    return const Text("まもなく切れます");
+    return "対応が必要";
   } else if (daysRemain < thretholdAttention) {
-    return const Text("期限が近づいています");
+    return "まもなく切れそう";
   } else {
-    return const Text("問題なし");
+    return "問題なし";
   }
 }
 
-/// 残り日数インジケータ表示部分の色
-List<Color> attensionColor(int daysRemain) {
+/// 残り日数インジケータ表示部分の背景色を返す
+List<Color> attensionBgColor(int daysRemain) {
   List<Color> result = <Color>[];
 
-  const Color borderColor = Colors.blueGrey; // 枠線の色
+  /// 枠線の色
+  const Color borderColor = Colors.blueGrey;
 
-  const Color colorNormal = Colors.white; // 通常
-  const Color colorAttention = Colors.yellow; // 注意
-  const Color colorHazard = Colors.red; // 警告
+  /// 通常
+  const Color colorNormal = Colors.white;
+
+  /// 注意
+  const Color colorAttention = Color.fromARGB(255, 235, 237, 115);
+
+  /// 警告
+  const Color colorHazard = Color.fromARGB(255, 206, 70, 95);
 
   if (daysRemain <= thretholdHazard) {
     result.add(colorHazard);
@@ -93,6 +146,15 @@ List<Color> attensionColor(int daysRemain) {
     result.add(borderColor);
   }
 
-  // result[0]: 背景色    result[1]: 枠線の色
+  /// result[0]: 背景色    result[1]: 枠線の色
   return result;
+}
+
+/// 残り日数インジケータ表示部分の文字色を返す
+Color attensionTextColor(int daysRemain) {
+  if (daysRemain <= thretholdHazard) {
+    return Colors.white;
+  } else {
+    return Colors.black;
+  }
 }
