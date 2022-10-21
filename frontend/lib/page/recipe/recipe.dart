@@ -89,11 +89,6 @@ Widget RecipeContent(BuildContext context) {
                       child: Text("作り置き"),
                       onPressed: () {
                         /*ボタンがタップされた時の処理 */
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MealListEdit()),
-                        );
                       },
                     ),
                   ],
@@ -115,11 +110,6 @@ Widget RecipeContent(BuildContext context) {
                           meal_prep_list.dartの class MealListEditに飛んでいる。
 
                           */
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MealListEdit()),
-                        );
                       },
                     ),
                   ],
