@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget AddButton () {
+Widget AddButton(Function onPressed, String heroTag) {
   return FloatingActionButton(
-    child: const Text('+'),
-    onPressed: () {},
+    child: Icon(Icons.add),
+    onPressed: () => {
+      if (onPressed != null) {onPressed()}
+    },
+    heroTag: heroTag,
   );
 }

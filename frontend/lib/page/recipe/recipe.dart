@@ -20,8 +20,8 @@ Widget RecipeContent(String content) {
             ),
 
             /*リスト？ */
-
-            ListView.builder(
+            //error吐いていたため、とりあえずコメントアウト
+            /* ListView.builder(
                 itemCount: mealList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Dismissible(
@@ -43,7 +43,7 @@ Widget RecipeContent(String content) {
                       ),
                     ),
                   );
-                }),
+                }), */
           ],
         ),
       ),

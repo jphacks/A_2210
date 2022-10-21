@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/AddButton.dart';
 import 'package:frontend/main.dart';
+import '/common/AddButton.dart';
+import '/page/home/manual_register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/page/home/home_detailFood.dart';
+import 'package:frontend/common/AddButton.dart';
 
 const int thretholdAttention = 4; // 「注意」表示日数
 const int thretholdHazard = 2; // 「警告」表示日数
 Widget HomeContent(
-  String text,
+  BuildContext context,
+  List dataList,
+  Function fetchIngredient,
 ) {
   //仮のテスト用変数
   bool onpressed = true; //ボタンのデザイン変化
   int daysRemain = 1; //賞味期限
+
   List<String> ExpiryDateList = [
     '2022/02/02',
   ];
@@ -19,7 +25,7 @@ Widget HomeContent(
     '写真',
   ];
   List<String> StoreList = [];
-  List<Color> colorsForAttention = attensionColor(daysRemain);
+  List<Color> colorsForAttention = attensionBgColor(daysRemain);
   return Scaffold(
     floatingActionButton: Column(
       mainAxisSize: MainAxisSize.min,
@@ -28,10 +34,14 @@ Widget HomeContent(
           onPressed: () {}, //カメラスキャンに遷移
           child: const Icon(CupertinoIcons.barcode),
         ),
-        FloatingActionButton(
-          onPressed: () {}, //カメラスキャンに遷移
-          child: const Icon(Icons.add),
-        ),
+        AddButton(() {
+          fetchIngredient();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ManualRegister(dataList: dataList)),
+          );
+        })
       ],
     ),
     body: Scrollbar(
@@ -141,6 +151,4 @@ Widget HomeContent(
       ),
     ),
   );
-
-  /* DropdownButton(items: [DropdownMenuItem(child: "child" ,value: "hoge")], onChanged: onChanged)); */
 }
