@@ -6,6 +6,7 @@ import '/page/home/manual_register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/page/home/home_detailFood.dart';
 import 'package:frontend/common/AddButton.dart';
+import 'home_detailFood.dart';
 
 const int thretholdAttention = 4; // 「注意」表示日数
 const int thretholdHazard = 2; // 「警告」表示日数
@@ -33,11 +34,12 @@ Widget HomeContent(
     floatingActionButton: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        FloatingActionButton(
+        //TODO: 余裕があったらカメラ入力追加
+        /* FloatingActionButton(
           onPressed: () {}, //カメラスキャンに遷移
           child: const Icon(CupertinoIcons.barcode),
           heroTag: "hero1",
-        ),
+        ), */
         AddButton(() {
           fetchIngredients();
           Navigator.push(
@@ -161,42 +163,50 @@ Widget HomeContent(
                       );
                     },
                     child: SizedBox(
-                      height: 100, //カードの大きさを変えた。
-                      child: Card(
-                        color: colorsForAttention[daysRemain], //賞味期限による色の変化
-                        child: Column(
-                          children: [
-                            ListTile(
-                              leading: ingredientsStockList[index]["fields"]
-                                          ["image"] !=
-                                      null
-                                  ? SizedBox(
-                                      height: 110,
-                                      child: Image.network(
-                                          "${ingredientsStockList[index]["fields"]["image"][0]["url"]}"))
-                                  : Text(
-                                      "${ingredientsStockList[index]["fields"]["image"].toString()}"),
-                              title: Column(
-                                children: [
-                                  Text(
-                                    '${ingredientsStockList[index]["fields"]["name"]}',
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                        height: 100, //カードの大きさを変えた。
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeDetailFood()),
+                            );
+                          },
+                          child: Card(
+                            color: colorsForAttention[daysRemain], //賞味期限による色の変化
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  leading: ingredientsStockList[index]["fields"]
+                                              ["image"] !=
+                                          null
+                                      ? SizedBox(
+                                          height: 110,
+                                          child: Image.network(
+                                              "${ingredientsStockList[index]["fields"]["image"][0]["url"]}"))
+                                      : Text(
+                                          "${ingredientsStockList[index]["fields"]["image"].toString()}"),
+                                  title: Column(
+                                    children: [
+                                      Text(
+                                        '${ingredientsStockList[index]["fields"]["name"]}',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                          '${ingredientsStockList[index]["fields"]["memo"]}'),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                      '${ingredientsStockList[index]["fields"]["memo"]}'),
-                                ],
-                              ),
-                              trailing: Text('調理可'),
+                                  trailing: Text('調理可'),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
+                        )),
                   );
                 },
               ),
