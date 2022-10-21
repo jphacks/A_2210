@@ -10,7 +10,8 @@ class AddConditions extends StatefulWidget {
 class _AddConditions extends State<AddConditions> {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return Scaffold(
+        body: Column(children: [
       Container(
         alignment: Alignment.centerRight,
         child: ElevatedButton(
@@ -234,6 +235,6 @@ class _AddConditions extends State<AddConditions> {
           onPressed: () {},
         ),
       )
-    ]);
+    ]));
   }
 }
