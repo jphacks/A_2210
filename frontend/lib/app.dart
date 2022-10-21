@@ -10,9 +10,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class App extends StatefulWidget {
-  final List? dataList;
-  final Function fetchIngredients;
-  const App({super.key, this.dataList, required this.fetchIngredients});
+  final List ingredientsStackList;
+  final Function fetchIngredientsStack;
+  const App(
+      {super.key,
+      required this.ingredientsStackList,
+      required this.fetchIngredientsStack});
 
   @override
   State<App> createState() => _AppState();
@@ -23,6 +26,30 @@ class _AppState extends State<App> {
   List<String> titleList = ["ホーム", "レシピ", "作り置きリスト"];
   List iconList = [Icons.home, Icons.search, Icons.school];
   var _toggleList = <bool>[false, false];
+  List ingredientsList = [];
+
+  void fetchIngredients() async {
+    final dio = Dio();
+    final id = dotenv.get('APPLICATION_ID');
+    final key = dotenv.get('API_KEY');
+    final url = 'https://api.airtable.com/v0/$id/ingredients';
+    final response = await dio.get(url,
+        options: Options(
+          headers: {"Authorization": "Bearer $key"},
+        ));
+
+    if (response.statusCode == 200) {
+      try {
+        final data = response.data;
+        setState(() {
+          ingredientsList = data["records"];
+        });
+        print('通信制高');
+      } catch (e) {
+        throw e;
+      }
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -47,8 +74,17 @@ class _AppState extends State<App> {
           // 引数が多くなってしまうため、Widget化せずに直接書く
           // switch文が使えないから三項演算子で書いてるけど、もっといい方法ある？
           child: _selectedIndex == 0
+
               ? HomeContent(context, widget.dataList, widget.fetchIngredients,
                   togglebuttonOnpressed, _toggleList)
+
+              ? HomeContent(
+                  context,
+                  widget.ingredientsStackList,
+                  widget.fetchIngredientsStack,
+                  ingredientsList,
+                  fetchIngredients,togglebuttonOnpressed, _toggleList)
+
               : _selectedIndex == 1
                   ? RecipeContent(context)
                   : _selectedIndex == 2

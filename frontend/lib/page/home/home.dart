@@ -11,12 +11,13 @@ const int thretholdAttention = 4; // 「注意」表示日数
 const int thretholdHazard = 2; // 「警告」表示日数
 
 Widget HomeContent(
-  BuildContext context,
-  List? dataList,
-  Function fetchIngredient,
-  Function togglebuttononPressed,
-  List<bool> _toggleList,
-) {
+    BuildContext context,
+    List ingredientsStockList,
+    Function fetchIngredientsStack,
+    List ingredientsList,
+    Function fetchIngredients,
+    Function togglebuttononPressed,
+    List<bool> _toggleList) {
   //仮のテスト用変数
 
   bool vertical = false;
@@ -38,11 +39,12 @@ Widget HomeContent(
           heroTag: "hero1",
         ),
         AddButton(() {
-          //fetchIngredient();
+          fetchIngredients();
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ManualRegister(dataList: dataList)),
+                builder: (context) =>
+                    ManualRegister(ingredientsList: ingredientsList)),
           );
         }, "hero2")
       ],
@@ -128,60 +130,77 @@ Widget HomeContent(
               // ),
             ],
           ),
-          StoreList.isEmpty
-              //商品が未登録の場合
-              ? Center(
-                  child: (Text(
-                    'まずは登録してみよう！！',
-                  )),
-                )
-              //商品が登録している場合
-              : Flexible(
-                  child: ListView.builder(
-                    itemCount: StoreList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Dismissible(
-                        //カードをスライドして削除出来るようにしている
-                        key: UniqueKey(),
-                        onDismissed: (direction) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              //削除したときに「元に戻す」スナックバー
-                              content: Text('「${StoreList[index]}」を削除しました'),
-                              action: SnackBarAction(
-                                label: '元に戻す',
-                                onPressed: () {},
-                              ),
-                            ),
-                          );
-                        },
-                        /*カード */
-                        child: SizedBox(
-                          height: 100, //カードの大きさを変えた。
-                          child: Card(
-                            color: colorsForAttention[daysRemain], //賞味期限による色の変化
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                    '${ImagesList[index]}', //写真にする予定
-                                  ),
-                                  trailing: Column(
-                                    children: [
-                                      Text('${StoreList[index]}'), //商品名
-                                      Text('${ExpiryDateList[index]}'),
-                                      Text(""),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+          if (ingredientsStockList.length == 0)
+            //商品が未登録の場合
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('まずは登録してみよう！！'),
+              ],
+            ),
+          if (ingredientsStockList.length >= 1)
+            //商品が登録している場合
+            Flexible(
+              child: ListView.builder(
+                itemCount: ingredientsStockList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Dismissible(
+                    //カードをスライドして削除出来るようにしている
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          //削除したときに「元に戻す」スナックバー
+                          content: Text(
+                              '{${ingredientsStockList[index]["fields"]["name"]}'),
+                          action: SnackBarAction(
+                            label: '元に戻す',
+                            onPressed: () {},
                           ),
                         ),
                       );
                     },
-                  ),
-                ),
+                    child: SizedBox(
+                      height: 100, //カードの大きさを変えた。
+                      child: Card(
+                        color: colorsForAttention[daysRemain], //賞味期限による色の変化
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading: ingredientsStockList[index]["fields"]
+                                          ["image"] !=
+                                      null
+                                  ? SizedBox(
+                                      height: 110,
+                                      child: Image.network(
+                                          "${ingredientsStockList[index]["fields"]["image"][0]["url"]}"))
+                                  : Text(
+                                      "${ingredientsStockList[index]["fields"]["image"].toString()}"),
+                              title: Column(
+                                children: [
+                                  Text(
+                                    '${ingredientsStockList[index]["fields"]["name"]}',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                      '${ingredientsStockList[index]["fields"]["memo"]}'),
+                                ],
+                              ),
+                              trailing: Text('調理可'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
         ],
       ),
     ),

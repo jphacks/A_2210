@@ -4,8 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 
 class ManualRegister extends StatefulWidget {
-  final List? dataList;
-  const ManualRegister({super.key, this.dataList});
+  final List? ingredientsList;
+  const ManualRegister({super.key, this.ingredientsList});
 
   @override
   State<ManualRegister> createState() => _ManualRegister();
@@ -137,7 +137,7 @@ class _ManualRegister extends State<ManualRegister> {
               ),
             ),
           ),
-          Text(widget.dataList.toString()),
+          Text(widget.ingredientsList.toString()),
           //TODO: 日付が入力されていない場合のエラー出力
           OutlinedButton(
               onPressed: () => {postIngredient(), Navigator.pop(context)},
