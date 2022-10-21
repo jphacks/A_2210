@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'add_conditions.dart';
+import '../meal_prep_list/meal_prep_list.dart';
 
 Widget RecipeContent(BuildContext context) {
   /* cardのtitleに入れられるリスト。
     料理名が格納されている。
    */
   List<String> recipe_name = ["生姜焼き", "豚肉の炒め"];
+  /* cardのTextに入れられるリスト。
+    賞味期限までの日数が格納されている。 */
+  List<int> term = [3, 5];
   return Column(
     children: [
       Expanded(
@@ -27,13 +31,6 @@ Widget RecipeContent(BuildContext context) {
                         MaterialPageRoute(
                             builder: (context) => AddConditions()),
                       );
-                      /* MaterialPageRoute(builder: (context) => 〇〇〇), 〇〇〇をボタンを押したら遷移したい画面のファイル名にすること。
-                      あと、遷移する先のファイルを、importする必要があるはず。
-                      また、遷移先のボタンを、下記のようにすると、戻ってくることができる。
-                         onPressed: () {
-                          Navigator.pop(context);
-                           },
-                        */
                     },
                   ),
                   /* 条件の追加の横に追加するボタン
@@ -83,14 +80,21 @@ Widget RecipeContent(BuildContext context) {
             Card(
               child: ListTile(
                 title: Text(recipe_name[0]),
-                subtitle: Text("残り賞味期限まで3日"),
+                subtitle: Text("残り賞味期限まで${term[0]}日"),
                 trailing: Column(
                   children: [
                     /*cachedのアイコン表示 */
                     Icon(Icons.cached, size: 15),
                     ElevatedButton(
                       child: Text("作り置き"),
-                      onPressed: () {/*ボタンがタップされた時の処理 */},
+                      onPressed: () {
+                        /*ボタンがタップされた時の処理 */
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MealListEdit()),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -100,13 +104,23 @@ Widget RecipeContent(BuildContext context) {
             Card(
               child: ListTile(
                 title: Text(recipe_name[1]),
-                subtitle: Text("残り賞味期限まで5日"),
+                subtitle: Text("残り賞味期限まで${term[1]}日"),
                 trailing: Column(
                   children: [
                     Icon(Icons.cached, size: 15),
                     ElevatedButton(
                       child: Text("作り置き"),
-                      onPressed: () {/*ボタンがタップされた時の処理 */},
+                      onPressed: () {
+                        /*ボタンがタップされた時の処理 
+                          meal_prep_list.dartの class MealListEditに飛んでいる。
+                          
+                          */
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MealListEdit()),
+                        );
+                      },
                     ),
                   ],
                 ),
