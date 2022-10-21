@@ -9,22 +9,20 @@ import 'package:frontend/common/AddButton.dart';
 
 const int thretholdAttention = 4; // 「注意」表示日数
 const int thretholdHazard = 2; // 「警告」表示日数
+
 Widget HomeContent(
   BuildContext context,
   List? dataList,
   Function fetchIngredient,
 ) {
   //仮のテスト用変数
-  bool onpressed = true; //ボタンのデザイン変化
+  bool onpressedCancook = true; //調理可のボタンのデザイン変化
+  bool onpressedCantcook = true; //調理不可のボタンのデザイン変化
   int daysRemain = 1; //賞味期限
-
-  List<String> ExpiryDateList = [
-    '2022/02/02',
-  ];
-  List<String> ImagesList = [
-    '写真',
-  ];
   List<String> StoreList = [];
+  List<String> ExpiryDateList = [];
+  List<String> ImagesList = [];
+
   List<Color> colorsForAttention = attensionBgColor(daysRemain);
   return Scaffold(
     floatingActionButton: Column(
@@ -55,7 +53,9 @@ Widget HomeContent(
                 children: [
                   ElevatedButton(
                     //調理不可ボタン
-                    onPressed: () {},
+                    onPressed: () {
+                      onpressedCancook = !onpressedCantcook;
+                    },
                     child: Text(
                       "調理不可",
                       style: TextStyle(
@@ -119,6 +119,7 @@ Widget HomeContent(
                             ),
                           );
                         },
+                        /*カード */
                         child: SizedBox(
                           height: 100, //カードの大きさを変えた。
                           child: Card(
@@ -131,10 +132,7 @@ Widget HomeContent(
                                   ),
                                   trailing: Column(
                                     children: [
-                                      Text(
-                                        '${StoreList[index]}',
-                                        textAlign: TextAlign.center,
-                                      ),
+                                      Text('${StoreList[index]}'), //商品名
                                       Text('${ExpiryDateList[index]}'),
                                       Text(""),
                                     ],
