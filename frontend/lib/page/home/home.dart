@@ -11,7 +11,7 @@ const int thretholdAttention = 4; // 「注意」表示日数
 const int thretholdHazard = 2; // 「警告」表示日数
 Widget HomeContent(
   BuildContext context,
-  List dataList,
+  List? dataList,
   Function fetchIngredient,
 ) {
   //仮のテスト用変数
@@ -33,6 +33,7 @@ Widget HomeContent(
         FloatingActionButton(
           onPressed: () {}, //カメラスキャンに遷移
           child: const Icon(CupertinoIcons.barcode),
+          heroTag: "hero1",
         ),
         AddButton(() {
           fetchIngredient();
@@ -41,7 +42,7 @@ Widget HomeContent(
             MaterialPageRoute(
                 builder: (context) => ManualRegister(dataList: dataList)),
           );
-        })
+        }, "hero2")
       ],
     ),
     body: Scrollbar(
