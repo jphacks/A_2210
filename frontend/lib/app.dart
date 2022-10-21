@@ -59,13 +59,16 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(titleList[_selectedIndex]),
       ),
       body: Center(
-        child: _bodyContents(
-          context,
-          _selectedIndex,
-          fetchIngredients,
-          dataList,
-        ),
-      ),
+          // 引数が多くなってしまうため、Widget化せずに直接書く
+          // switch文が使えないから三項演算子で書いてるけど、もっといい方法ある？
+          child: _selectedIndex == 0
+              ? HomeContent(context, dataList, fetchIngredients)
+              : _selectedIndex == 1
+                  ? RecipeContent('レシピですん')
+                  : _selectedIndex == 2
+                      ? MealContent('レシピで寸')
+                      //TODO: snackbarに変更
+                      : Text('this is error')),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -83,19 +86,5 @@ class _MyHomePageState extends State<MyHomePage> {
         unselectedFontSize: 15,
       ),
     );
-  }
-}
-
-Widget _bodyContents(
-    BuildContext context, int id, Function fetchIngredients, List dataList) {
-  switch (id) {
-    case 0:
-      return HomeContent(context, dataList, fetchIngredients);
-    case 1:
-      return RecipeContent('レシピですん');
-    case 2:
-      return MealContent('レシピで寸');
-    default:
-      return Text('this is error');
   }
 }
