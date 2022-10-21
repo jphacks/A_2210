@@ -111,9 +111,9 @@ Widget RecipeContent(BuildContext context) {
                     ElevatedButton(
                       child: Text("作り置き"),
                       onPressed: () {
-                        /*ボタンがタップされた時の処理 
+                        /*ボタンがタップされた時の処理
                           meal_prep_list.dartの class MealListEditに飛んでいる。
-                          
+
                           */
                         Navigator.push(
                           context,

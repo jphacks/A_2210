@@ -4,8 +4,8 @@ import '../../common/AddButton.dart';
 Widget MealContent(String s, context) {
   List<String> mealList = ['料理名1', '料理名2'];
   List<List<String>> ingredientLists = [
-    ['食材1', '食材2','','',''],
-    ['食材3', '食材4','','',''],
+    ['食材1', '食材2', '', '', ''],
+    ['食材3', '食材4', '', '', ''],
   ];
   String newMealName = '';
   List<String> newIngredientList = ['', '', '', '', ''];
@@ -13,12 +13,16 @@ Widget MealContent(String s, context) {
   List<Color> colors = [Colors.white, Colors.yellow, Colors.red];
   return Scaffold(
     floatingActionButton: AddButton(
-      () => {Navigator.push(  
-        context,
-        MaterialPageRoute(builder: (context) => MealListEdit(mealName: newMealName, ingredientLIst: newIngredientList,)))
-        }, 
-      "hero1"
-    ),
+        () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MealListEdit(
+                            mealName: newMealName,
+                            ingredientLIst: newIngredientList,
+                          )))
+            },
+        "hero1"),
     body: Container(
       child: ListView.builder(
           itemCount: mealList.length,
@@ -53,14 +57,15 @@ Widget MealContent(String s, context) {
                     ),
                     Container(
                         alignment: Alignment.centerRight,
-                        child:
-                            ElevatedButton(onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => MealListEdit(mealName: mealList[index],ingredientLIst: ingredientLists[index],),
-                                )
-                              );
-                            }, 
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => MealListEdit(
+                                  mealName: mealList[index],
+                                  ingredientLIst: ingredientLists[index],
+                                ),
+                              ));
+                            },
                             child: Text('編集')))
                   ],
                 ),
@@ -74,14 +79,21 @@ Widget MealContent(String s, context) {
 class MealListEdit extends StatefulWidget {
   String mealName;
   List<String> ingredientLIst;
-  MealListEdit({Key? key, required this.mealName, required this.ingredientLIst}) : super(key: key);
+  MealListEdit({Key? key, required this.mealName, required this.ingredientLIst})
+      : super(key: key);
   @override
   State<MealListEdit> createState() => _MealListEdit();
 }
 
 class _MealListEdit extends State<MealListEdit> {
   final mealController = TextEditingController();
-  var ingredientControllers = [TextEditingController(), TextEditingController(), TextEditingController() ,TextEditingController(),TextEditingController()];
+  var ingredientControllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController()
+  ];
   late String stateMeal;
   late List<String> stateIngredient;
   @override
@@ -90,6 +102,7 @@ class _MealListEdit extends State<MealListEdit> {
     stateMeal = widget.mealName;
     stateIngredient = widget.ingredientLIst;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,60 +115,60 @@ class _MealListEdit extends State<MealListEdit> {
             Padding(
               padding: EdgeInsets.only(bottom: 20),
               child: Card(
-              child: TextField(
-                controller: mealController,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: '料理名',
-              )),
-            ),
-            ),
-            Card(
-              child: TextField(
-                controller: ingredientControllers[0],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: '食材1',
-              )),
+                child: TextField(
+                    controller: mealController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText: '料理名',
+                    )),
+              ),
             ),
             Card(
               child: TextField(
-                controller: ingredientControllers[1],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: '食材2',
-              )),
+                  controller: ingredientControllers[0],
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: '食材1',
+                  )),
             ),
             Card(
               child: TextField(
-                controller: ingredientControllers[2],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: '食材3',
-              )),
+                  controller: ingredientControllers[1],
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: '食材2',
+                  )),
             ),
             Card(
               child: TextField(
-                controller: ingredientControllers[3],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: '食材4',
-              )),
+                  controller: ingredientControllers[2],
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: '食材3',
+                  )),
             ),
             Card(
               child: TextField(
-                controller: ingredientControllers[4],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: '食材5',
-              )),
+                  controller: ingredientControllers[3],
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: '食材4',
+                  )),
+            ),
+            Card(
+              child: TextField(
+                  controller: ingredientControllers[4],
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: '食材5',
+                  )),
             ),
             Container(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 onPressed: () {
                   widget.mealName = mealController.text;
-                  for(int i=0;i<5;i++){
+                  for (int i = 0; i < 5; i++) {
                     widget.ingredientLIst[i] = ingredientControllers[i].text;
                   }
                   Navigator.of(context).pop();
@@ -174,10 +187,10 @@ Widget InputMealIngredient(String label, String ingredient) {
   final myController = TextEditingController();
   return Card(
     child: TextField(
-      controller: myController,
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        labelText: label,
-    )),
+        controller: myController,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          labelText: label,
+        )),
   );
 }
