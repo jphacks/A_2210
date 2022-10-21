@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class RakutenApi extends StatefulWidget {
   const RakutenApi({super.key});
@@ -40,13 +42,25 @@ class _RakutenApi extends State<RakutenApi> {
     }
   }
 
+  void _openUrl() async {
+    final uri = Uri.parse(recipeUrl);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(
+        uri,
+      );
+    } else {
+      throw 'このURLにはアクセスできません';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("レシピ詳細")),
       body: Column(children: [
-        Text(recipeUrl.toString()),
-        OutlinedButton(onPressed: fetchRecipe, child: Text("api"))
+        OutlinedButton(onPressed: _openUrl, child: Text('openUrl')),
+        OutlinedButton(onPressed: fetchRecipe, child: Text("api")),
+        Text(recipeUrl.toString())
       ]),
     );
   }
