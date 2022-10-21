@@ -10,12 +10,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class App extends StatefulWidget {
-  final List ingredientsStackList;
-  final Function fetchIngredientsStack;
+  final List ingredientsStockList;
+  final Function fetchIngredientsStock;
   const App(
       {super.key,
-      required this.ingredientsStackList,
-      required this.fetchIngredientsStack});
+      required this.ingredientsStockList,
+      required this.fetchIngredientsStock});
 
   @override
   State<App> createState() => _AppState();
@@ -44,7 +44,7 @@ class _AppState extends State<App> {
         setState(() {
           ingredientsList = data["records"];
         });
-        print('通信制高');
+        print('ingredient通信成功');
       } catch (e) {
         throw e;
       }
@@ -57,7 +57,7 @@ class _AppState extends State<App> {
     });
   }
 
-  void togglebuttonOnpressed(int index) {
+  void toggleButtonOnPressed(int index) {
     setState(() {
       _toggleList[index] = !_toggleList[index];
     });
@@ -76,11 +76,11 @@ class _AppState extends State<App> {
           child: _selectedIndex == 0
               ? HomeContent(
                   context,
-                  widget.ingredientsStackList,
-                  widget.fetchIngredientsStack,
+                  widget.ingredientsStockList,
+                  widget.fetchIngredientsStock,
                   ingredientsList,
                   fetchIngredients,
-                  togglebuttonOnpressed,
+                  toggleButtonOnPressed,
                   _toggleList)
               : _selectedIndex == 1
                   ? RecipeContent(context)
@@ -99,10 +99,10 @@ class _AppState extends State<App> {
             ),
         ],
         enableFeedback: true,
-        iconSize: 25,
-        selectedFontSize: 20,
-        selectedIconTheme: const IconThemeData(size: 30),
-        unselectedFontSize: 15,
+        iconSize: 23,
+        selectedFontSize: 14,
+        selectedIconTheme: const IconThemeData(size: 28),
+        unselectedFontSize: 13,
       ),
     );
   }

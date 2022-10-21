@@ -4,6 +4,13 @@ import 'package:frontend/common/AddButton.dart';
 import 'package:frontend/main.dart';
 import 'package:flutter/cupertino.dart';
 
+class HomeDetailFood extends StatefulWidget {
+  const HomeDetailFood({super.key});
+
+  @override
+  State<HomeDetailFood> createState() => _HomeDetailFood();
+}
+
 /// -------------------sagara-------------------
 /// ----------------------
 /// デバッグ用変数 (後で要連携)
@@ -16,85 +23,81 @@ int daysRemain = 2;
 ///----------------------
 
 /// 「注意」表示日数
-const int thretholdAttention = 4;
+final int thretholdAttention = 4;
 
 /// 「警告」表示日数
-const int thretholdHazard = 2;
+final int thretholdHazard = 2;
 
+class _HomeDetailFood extends State<HomeDetailFood> {
 // ignore: non_constant_identifier_names
-Widget DetailFood() {
-  /// 食品画像表示部の横幅と縦幅
-  const double widthOfPictureArea = 900;
-  const double heightOfPictureArea = 100;
+  @override
+  Widget build(BuildContext context) {
+    /// 食品画像表示部の横幅と縦幅
+    const double widthOfPictureArea = 900;
+    const double heightOfPictureArea = 100;
 
-  /// ボタンの色(紫)
-  const Color buttonColor = Color.fromARGB(255, 98, 0, 238);
+    /// ボタンの色(紫)
+    const Color buttonColor = Color.fromARGB(255, 98, 0, 238);
 
-  /// インジケータ表示部の文字色
-  Color colorsForTextAttension = attensionTextColor(daysRemain);
+    /// インジケータ表示部の文字色
+    Color colorsForTextAttension = attensionTextColor(daysRemain);
 
-  /// インジケータ表示部の背景色
-  List<Color> colorsForBgAttension = <Color>[];
-  colorsForBgAttension = attensionBgColor(daysRemain);
+    /// インジケータ表示部の背景色
+    List<Color> colorsForBgAttension = <Color>[];
+    colorsForBgAttension = attensionBgColor(daysRemain);
 
-  /* --------------- */
-  return Scaffold(
-    body: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        /// 「戻る」ボタンの表示
-        TextButton(
-          style: TextButton.styleFrom(backgroundColor: buttonColor),
-          onPressed: () {}, // Home画面に戻る
-          child: const Text("戻る",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white)),
-        ),
+    /* --------------- */
+    return Scaffold(
+      appBar: AppBar(title: Text("食材の詳細画面")),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          /// 「調理可(or不可)」ラベル・残り日数インジケータ
+          Center(
+              child: SizedBox(
+                  width: widthOfPictureArea,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        /// 「調理可」または「調理不可」ラベルの表示
+                        Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.blueGrey),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Center(
+                                child: Text(isCookText(canCook),
+                                    textAlign: TextAlign.center))),
 
-        /// 「調理可(or不可)」ラベル・残り日数インジケータ
-        Center(
-            child: SizedBox(
-                width: widthOfPictureArea,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      /// 「調理可」または「調理不可」ラベルの表示
-                      Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Center(
-                              child: Text(isCookText(canCook),
-                                  textAlign: TextAlign.center))),
+                        /// 残り日数インジケータの表示
+                        Container(
+                            decoration: BoxDecoration(
+                              color: colorsForBgAttension[0],
+                              border:
+                                  Border.all(color: colorsForBgAttension[1]),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                                child: Text(attentionText(daysRemain),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: colorsForTextAttension)))),
+                      ]))),
 
-                      /// 残り日数インジケータの表示
-                      Container(
-                          decoration: BoxDecoration(
-                            color: colorsForBgAttension[0],
-                            border: Border.all(color: colorsForBgAttension[1]),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                              child: Text(attentionText(daysRemain),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: colorsForTextAttension)))),
-                    ]))),
-
-        /// 食品画像等の表示 (要差し替え)
-        Center(
-            child: Container(
-                margin: const EdgeInsets.only(top: 7),
-                color: Colors.blueGrey,
-                width: widthOfPictureArea,
-                height: heightOfPictureArea,
-                child: Text("ここに画像などを表示(たかみなさんのコンポーネントを使う予定)",
-                    textAlign: TextAlign.center))),
-      ],
-    ),
-  );
+          /// 食品画像等の表示 (要差し替え)
+          Center(
+              child: Container(
+                  margin: const EdgeInsets.only(top: 7),
+                  color: Colors.blueGrey,
+                  width: widthOfPictureArea,
+                  height: heightOfPictureArea,
+                  child: Text("ここに画像などを表示(たかみなさんのコンポーネントを使う予定)",
+                      textAlign: TextAlign.center))),
+        ],
+      ),
+    );
+  }
 }
 
 /// ----------↓ functions ↓----------
