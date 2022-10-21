@@ -44,7 +44,7 @@ class _AppState extends State<App> {
               : _selectedIndex == 1
                   ? RecipeContent('レシピですん')
                   : _selectedIndex == 2
-                      ? MealContent('レシピで寸')
+                      ? MealContent('レシピで寸', context)
                       //TODO: snackbarに変更
                       : Text('this is error')),
       bottomNavigationBar: BottomNavigationBar(

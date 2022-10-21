@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 Widget AddConditions(String content) {
   return Column(
     children: [
@@ -29,59 +30,11 @@ Widget AddConditions(String content) {
       ),
       Row(
         children: [
-          Container(
-            width: 100,
-            height: 100,
-            child:ElevatedButton(
-              child: Text(
-                'カニ',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('カニ'),
           SizedBox(width: 20.0),
-          Container(
-            width: 100,
-            height: 100,
-            child:ElevatedButton(
-              child: Text(
-                'たまご',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('たまご'),
           SizedBox(width: 20.0),
-          Container(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              child: Text(
-                '小麦',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('小麦'),
         ],
       ),
       Spacer(flex: 1),
@@ -96,77 +49,13 @@ Widget AddConditions(String content) {
       ),
       Row(
         children: [
-          Container(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              child: Text(
-                '朝食',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('朝食'),
           SizedBox(width: 20.0),
-          Container(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              child: Text(
-                '昼食',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('昼食'),
           SizedBox(width: 20.0),
-          Container(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              child: Text(
-                '夜食',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('夜食'),
           SizedBox(width: 20.0),
-          Container(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              child: Text(
-                '間食',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('間食'),
         ],
       ),
       Spacer(flex: 1),
@@ -181,59 +70,11 @@ Widget AddConditions(String content) {
       ),
       Row(
         children: [
-          Container(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              child: Text(
-                '主菜',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('主菜'),
           SizedBox(width:20.0),
-          Container(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              child: Text(
-                '副菜',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('副菜'),
           SizedBox(width: 20.0),
-          Container(
-            width: 100,
-            height: 100,
-            child: ElevatedButton(
-              child: Text(
-                '汁物',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                )
-              ),
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ),
+          ConditionContainer('汁物'),
         ],
       ),
       Spacer(flex: 2),
@@ -253,5 +94,25 @@ Widget AddConditions(String content) {
         ),
       )
     ]
+  );
+}
+
+Widget ConditionContainer (String condition) {
+  return Container(
+    width: 100,
+    height: 100,
+    child: ElevatedButton(
+      child: Text(
+        condition,
+        style: TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+        )
+      ),
+      onPressed: (){},
+      style: ElevatedButton.styleFrom(
+        primary: Colors.white,
+      ),
+    ),
   );
 }
