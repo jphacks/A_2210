@@ -1,107 +1,124 @@
 import 'package:flutter/material.dart';
 import '../../common/AddButton.dart';
 
-Widget MealContent(String s, context) {
-  List<String> mealList = ['料理名1', '料理名2'];
-  List<List<String>> ingredientLists = [
-    ['食材1', '食材2', '', '', ''],
-    ['食材3', '食材4', '', '', ''],
-  ];
-  String newMealName = '';
-  List<String> newIngredientList = ['', '', '', '', ''];
-  List<int> elapsedDay = [1, 5];
-  List<Color> colors = [Colors.white, Colors.yellow, Colors.red];
-  return Scaffold(
-    floatingActionButton: AddButton(
-        () => {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MealListEdit(
-                            mealName: newMealName,
-                            ingredientLIst: newIngredientList,
-                          )))
-            },
-        "hero1"),
-    body: Container(
-      child: ListView.builder(
-          itemCount: mealList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Dismissible(
-              key: UniqueKey(),
-              onDismissed: (direction) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('「${mealList[index]}」を削除しました'),
-                      action: SnackBarAction(
-                        label: '元に戻す',
-                        onPressed: () {},
-                      )),
-                );
-              },
-              child: Card(
-                child: Column(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('${mealList[index]}',
-                          style: const TextStyle(fontSize: 24.0)),
-                    ),
-                    ListTile(
-                      title: Text('${elapsedDay[index]}day'),
-                      tileColor: colors[(elapsedDay[index] > 2 ? 1 : 0) +
-                          (elapsedDay[index] > 4 ? 1 : 0)],
-                    ),
-                    ListTile(
-                      title: Text('食材'),
-                      subtitle: Text(ingredientLists[index].join(' ')),
-                    ),
-                    Container(
-                        alignment: Alignment.centerRight,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => MealListEdit(
-                                  mealName: mealList[index],
-                                  ingredientLIst: ingredientLists[index],
-                                ),
-                              ));
-                            },
-                            child: Text('編集')))
-                  ],
-                ),
-              ),
-            );
-          }),
-    ),
-  );
-}
+List<Color> _colors = [Colors.white, Colors.yellow, Colors.red];
 
-class MealListEdit extends StatefulWidget {
-  String mealName;
-  List<String> ingredientLIst;
-  MealListEdit({Key? key, required this.mealName, required this.ingredientLIst})
-      : super(key: key);
-  @override
-  State<MealListEdit> createState() => _MealListEdit();
-}
+class Meal {
+  String name;
+  List<String> ingredients;
+  int elapsedDay;
+  bool eaten;
+  Meal(this.name, this.ingredients, this.elapsedDay, this.eaten);
 
-class _MealListEdit extends State<MealListEdit> {
-  final mealController = TextEditingController();
-  var ingredientControllers = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController()
-  ];
-  late String stateMeal;
-  late List<String> stateIngredient;
-  @override
-  void initState() {
-    super.initState();
-    stateMeal = widget.mealName;
-    stateIngredient = widget.ingredientLIst;
+  changeOnState() {
+    eaten = !eaten;
   }
+}
+
+Widget MealContent(String text, BuildContext context) {
+  return MealListPage();
+}
+
+class MealListPage extends StatefulWidget {
+  const MealListPage({Key? key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => _MealListPage();
+}
+
+class _MealListPage extends State<MealListPage> {
+  List<Meal> mealList = [
+    Meal('生姜焼き', ['豚肉', '玉ねぎ'], 1, false),
+    Meal('豚肉炒め', ['豚肉', 'もやし'], 4, false),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        floatingActionButton: AddButton(() {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => AddMealPage()))
+              .then((newMeal) {
+            if (newMeal != null) {
+              addNewTask(newMeal);
+            }
+          });
+        }, "hero1"),
+        body: Container(
+          child: ListView.builder(
+              itemCount: mealList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Dismissible(
+                  key: UniqueKey(),
+                  onDismissed: (direction) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('「${mealList[index].name}」を削除しました'),
+                          action: SnackBarAction(
+                            label: '元に戻す',
+                            onPressed: () {
+                              //スワイプした後に元に戻す処理
+                            },
+                          )),
+                    );
+                  },
+                  child: MealCard(mealList[index]),
+                );
+              }),
+        ));
+  }
+
+  addNewTask(Meal newMeal) {
+    setState(() => mealList.add(newMeal));
+  }
+
+}
+
+class MealCard extends StatelessWidget {
+  const MealCard(this._meal, {Key? key}) : super(key: key);
+  final Meal _meal;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            title:
+                Text('${_meal.name}', style: const TextStyle(fontSize: 24.0)),
+          ),
+          ListTile(
+            title: Text('${_meal.elapsedDay}day'),
+            tileColor: _colors[(_meal.elapsedDay > 2 ? 1 : 0) +
+                (_meal.elapsedDay > 4 ? 1 : 0)],
+          ),
+          ListTile(
+            title: Text('食材'),
+            subtitle: Text(_meal.ingredients.join(' ')),
+          ),
+          Container(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  //編集ボタンを押すときの処理
+                }, 
+                child: Text('編集')
+              )
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class AddMealPage extends StatelessWidget {
+  final List<TextEditingController> _Controllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
+  AddMealPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +132,8 @@ class _MealListEdit extends State<MealListEdit> {
             Padding(
               padding: EdgeInsets.only(bottom: 20),
               child: Card(
-                child: TextField(
-                    controller: mealController,
+                child: TextFormField(
+                    controller: _Controllers[0],
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       labelText: '料理名',
@@ -124,40 +141,40 @@ class _MealListEdit extends State<MealListEdit> {
               ),
             ),
             Card(
-              child: TextField(
-                  controller: ingredientControllers[0],
+              child: TextFormField(
+                  controller: _Controllers[1],
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: '食材1',
                   )),
             ),
             Card(
-              child: TextField(
-                  controller: ingredientControllers[1],
+              child: TextFormField(
+                  controller: _Controllers[2],
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: '食材2',
                   )),
             ),
             Card(
-              child: TextField(
-                  controller: ingredientControllers[2],
+              child: TextFormField(
+                  controller: _Controllers[3],
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: '食材3',
                   )),
             ),
             Card(
-              child: TextField(
-                  controller: ingredientControllers[3],
+              child: TextFormField(
+                  controller: _Controllers[4],
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: '食材4',
                   )),
             ),
             Card(
-              child: TextField(
-                  controller: ingredientControllers[4],
+              child: TextFormField(
+                  controller: _Controllers[5],
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: '食材5',
@@ -167,11 +184,17 @@ class _MealListEdit extends State<MealListEdit> {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 onPressed: () {
-                  widget.mealName = mealController.text;
-                  for (int i = 0; i < 5; i++) {
-                    widget.ingredientLIst[i] = ingredientControllers[i].text;
-                  }
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(Meal(
+                      _Controllers[0].text,
+                      [
+                        _Controllers[1].text,
+                        _Controllers[2].text,
+                        _Controllers[3].text,
+                        _Controllers[4].text,
+                        _Controllers[5].text
+                      ],
+                      1,
+                      false));
                 },
                 child: const Text('確定'),
               ),
@@ -181,16 +204,4 @@ class _MealListEdit extends State<MealListEdit> {
       ),
     );
   }
-}
-
-Widget InputMealIngredient(String label, String ingredient) {
-  final myController = TextEditingController();
-  return Card(
-    child: TextField(
-        controller: myController,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          labelText: label,
-        )),
-  );
 }
