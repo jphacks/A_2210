@@ -135,11 +135,12 @@ class _ManualRegister extends State<ManualRegister> {
                   }
                 },
               ),
-              // labelText: 'Password',
             ),
           ),
+          //TODO: 日付が入力されていない場合のエラー出力
           OutlinedButton(
-              onPressed: () => {postIngredient()}, child: Text('確定')),
+              onPressed: () => {postIngredient(), Navigator.pop(context)},
+              child: Text('確定')),
         ])));
   }
 }
