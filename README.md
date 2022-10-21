@@ -25,9 +25,9 @@
 * 賞味期限順に作れる料理が表示されるので、古い食材に手がつかないということを解決できる。
 
 ## 開発技術
-*Flutter 
-*Figma
-*Airtable
+・Flutter 
+・Figma
+・Airtable
 ### 活用した技術
 #### API・データ
 * 
