@@ -42,7 +42,7 @@ class _AppState extends State<App> {
           child: _selectedIndex == 0
               ? HomeContent(context, widget.dataList, widget.fetchIngredients)
               : _selectedIndex == 1
-                  ? RecipeContent('レシピですん')
+                  ? RecipeContent(context)
                   : _selectedIndex == 2
                       ? MealContent('レシピで寸')
                       //TODO: snackbarに変更

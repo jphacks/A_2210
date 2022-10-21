@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'add_conditions.dart';
 
-Widget RecipeContent(String content) {
+Widget RecipeContent(BuildContext context) {
   /* cardのtitleに入れられるリスト。
-    料理名が格納されている。 
+    料理名が格納されている。
    */
   List<String> recipe_name = ["生姜焼き", "豚肉の炒め"];
   return Column(
@@ -23,25 +23,25 @@ Widget RecipeContent(String content) {
                     onPressed: () {
                       /*ボタンがタップされた時の処理 */
                       Navigator.push(
-                        content,
+                        context,
                         MaterialPageRoute(
-                            builder: (context) => AddConditions(content)),
+                            builder: (context) => AddConditions()),
                       );
                       /* MaterialPageRoute(builder: (context) => 〇〇〇), 〇〇〇をボタンを押したら遷移したい画面のファイル名にすること。
                       あと、遷移する先のファイルを、importする必要があるはず。
                       また、遷移先のボタンを、下記のようにすると、戻ってくることができる。
                          onPressed: () {
                           Navigator.pop(context);
-                           }, 
+                           },
                         */
                     },
                   ),
-                  /* 条件の追加の横に追加するボタン 
+                  /* 条件の追加の横に追加するボタン
                   押されると、無力化されて、検索の条件から外される。（まだ実装されていない）
                   */
                   OutlinedButton(
-                    /* onPressed: 条件 ? 条件がTrueの時 null : 条件がfalseの時(){ボタンを押したら行われる処理} 
-                    
+                    /* onPressed: 条件 ? 条件がTrueの時 null : 条件がfalseの時(){ボタンを押したら行われる処理}
+
                     */
                     onPressed: () {},
                     child: Text(
