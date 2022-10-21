@@ -64,6 +64,12 @@ flutter:
   assets:
     - .env
 
+  # fonts:
+  #   - family: Confortaa
+  #     fonts:
+  #       - asset: fonts/Confortaa-Bold.ttf
+  #         weight: 700
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

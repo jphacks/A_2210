@@ -2,21 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
+import '/common/ToggleButtons.dart';
+import 'package:frontend/app.dart';
 
 class ManualRegister extends StatefulWidget {
-  final List? ingredientsList;
-  const ManualRegister({super.key, this.ingredientsList});
+  final List ingredientsList;
+  final Function fetchIngredients;
+  final List ingredientsStockList;
+  final Function fetchIngredientsStock;
+  const ManualRegister(
+      {super.key,
+      required this.fetchIngredients,
+      required this.ingredientsList,
+      required this.fetchIngredientsStock,
+      required this.ingredientsStockList});
 
   @override
   State<ManualRegister> createState() => _ManualRegister();
 }
 
 class _ManualRegister extends State<ManualRegister> {
-  List<String> ingredientNameList = ["にんじん", "じゃがいも", "お芋"];
-  String? _isSelectedItem = "にんじん";
+  List<String> ingredientNameList = ["未選択"];
+  String? _isSelectedItem = "未選択";
   double _volume = 0;
-  TextEditingController _date = TextEditingController(text: "value");
+  TextEditingController _date = TextEditingController(text: "");
   String? _formatedDate;
+  String? _memo = "";
+  var _toggleList = <bool>[false, false];
+  bool done = false;
 
   void postIngredient() async {
     final dio = Dio();
@@ -28,12 +41,14 @@ class _ManualRegister extends State<ManualRegister> {
           "fields": {
             "name": _isSelectedItem,
             "volume": _volume.toString(),
-            "limit": _formatedDate
+            "limit": _formatedDate,
+            "Select": _toggleList[0] ? '調理可' : '調理不可',
+            "memo": _memo,
           }
         }
       ]
     };
-    final url = 'https://api.airtable.com/v0/${id}/ingredients-stack';
+    final url = 'https://api.airtable.com/v0/${id}/ingredients-stock';
     final response = await dio.post(url,
         data: data,
         options: Options(headers: {
@@ -50,6 +65,12 @@ class _ManualRegister extends State<ManualRegister> {
     }
   }
 
+  void toggleButtonOnPressed(int index) {
+    setState(() {
+      _toggleList[index] = !_toggleList[index];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +79,7 @@ class _ManualRegister extends State<ManualRegister> {
         ),
         body: Center(
             child: Column(children: [
+          ToggleButton(_toggleList, toggleButtonOnPressed),
           SizedBox(height: 30),
           DropdownButton(
             items: [
@@ -137,10 +159,32 @@ class _ManualRegister extends State<ManualRegister> {
               ),
             ),
           ),
-          Text(widget.ingredientsList.toString()),
+          TextField(
+            maxLength: 50,
+            maxLines: 1,
+            decoration: const InputDecoration(
+              labelText: "memo",
+            ),
+            onChanged: (text) {
+              setState(() {
+                _memo = text;
+              });
+            },
+          ),
           //TODO: 日付が入力されていない場合のエラー出力
           OutlinedButton(
-              onPressed: () => {postIngredient(), Navigator.pop(context)},
+              onPressed: () => {
+                    postIngredient(),
+                    widget.fetchIngredientsStock(),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => App(
+                              ingredientsStockList: widget.ingredientsStockList,
+                              fetchIngredientsStock:
+                                  widget.fetchIngredientsStock)),
+                    )
+                  },
               child: Text('確定')),
         ])));
   }

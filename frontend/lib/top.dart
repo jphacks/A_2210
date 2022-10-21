@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/app.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TopPage extends StatefulWidget {
   const TopPage({super.key});
@@ -12,9 +13,9 @@ class TopPage extends StatefulWidget {
 
 class _TopPage extends State<TopPage> {
   // TODO : dataListの型定義
-  List ingredientsStackList = [];
+  List ingredientsStockList = [];
 
-  void fetchIngredientsStack() async {
+  void fetchIngredientsStock() async {
     final dio = Dio();
     final id = dotenv.get('APPLICATION_ID');
     final key = dotenv.get('API_KEY');
@@ -28,9 +29,9 @@ class _TopPage extends State<TopPage> {
       try {
         final data = response.data;
         setState(() {
-          ingredientsStackList = data["records"];
+          ingredientsStockList = data["records"];
         });
-        print(ingredientsStackList);
+        print(ingredientsStockList);
       } catch (e) {
         throw e;
       }
@@ -49,7 +50,7 @@ class _TopPage extends State<TopPage> {
       ),
       OutlinedButton(
           onPressed: () {
-            fetchIngredientsStack();
+            fetchIngredientsStock();
           },
           child: Text('api通信')),
       OutlinedButton(
@@ -58,8 +59,8 @@ class _TopPage extends State<TopPage> {
               context,
               MaterialPageRoute(
                   builder: (context) => App(
-                      ingredientsStackList: ingredientsStackList,
-                      fetchIngredientsStack: fetchIngredientsStack)),
+                      ingredientsStockList: ingredientsStockList,
+                      fetchIngredientsStock: fetchIngredientsStock)),
             );
           },
           child: Text('スタート')),
