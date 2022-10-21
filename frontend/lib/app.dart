@@ -74,17 +74,14 @@ class _AppState extends State<App> {
           // 引数が多くなってしまうため、Widget化せずに直接書く
           // switch文が使えないから三項演算子で書いてるけど、もっといい方法ある？
           child: _selectedIndex == 0
-
-              ? HomeContent(context, widget.dataList, widget.fetchIngredients,
-                  togglebuttonOnpressed, _toggleList)
-
               ? HomeContent(
                   context,
                   widget.ingredientsStackList,
                   widget.fetchIngredientsStack,
                   ingredientsList,
-                  fetchIngredients,togglebuttonOnpressed, _toggleList)
-
+                  fetchIngredients,
+                  togglebuttonOnpressed,
+                  _toggleList)
               : _selectedIndex == 1
                   ? RecipeContent(context)
                   : _selectedIndex == 2
