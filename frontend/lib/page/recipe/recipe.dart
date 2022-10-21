@@ -1,49 +1,95 @@
 import 'package:flutter/material.dart';
 
 Widget RecipeContent(String content) {
-  List<String> mealList = ['料理名1', '料理名2'];
-
   return Column(
     children: [
       Expanded(
         child: Column(
           children: [
             Container(
-              /*ボタン */
+              /* 条件の追加のボタン */
               alignment: Alignment.centerLeft,
               height: 30,
               color: Colors.yellow,
-              child: ElevatedButton(
-                child: Text("条件の追加"),
-                onPressed: () {/*ボタンがタップされた時の処理 */},
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    child: Text("条件の追加"),
+                    onPressed: () {/*ボタンがタップされた時の処理 */},
+                  ),
+                  /* 条件の追加の横に追加するボタン */
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "夜食",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style:
+                        OutlinedButton.styleFrom(backgroundColor: Colors.green),
+                  ),
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "主菜",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style:
+                        OutlinedButton.styleFrom(backgroundColor: Colors.green),
+                  ),
+                ],
               ),
             ),
 
-            /*リスト？ */
+            /* タグのように条件の追加を押した後に、選択した条件が黄色の枠に表示されるようにしたい。 */
 
-            ListView.builder(
-                itemCount: mealList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (direction) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text('「${mealList[index]}」を削除しました'),
-                            action: SnackBarAction(
-                              label: '元に戻す',
-                              onPressed: () {},
-                            )),
-                      );
-                    },
-                    child: Card(
-                      child: ListTile(
-                        title: Text('${mealList[index]}\n1日'),
-                        subtitle: Text('食材1 食材2'),
-                      ),
+            /* 検索欄 */
+            const TextField(
+              decoration: InputDecoration(
+                /*検索枠前のアイコンの指定*/
+                icon: Icon(
+                  Icons.search,
+                ),
+                /*検索中の欄とその下に表示されるテキスト */
+                hintText: '検索',
+                helperText: '',
+                counterText: '',
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            /* 生姜焼きの欄の表示 */
+            Card(
+              child: ListTile(
+                title: Text('生姜焼き'),
+                subtitle: Text("残り賞味期限まで3日"),
+                trailing: Column(
+                  children: [
+                    /*cachedのアイコン表示 */
+                    Icon(Icons.cached, size: 15),
+                    ElevatedButton(
+                      child: Text("作り置き"),
+                      onPressed: () {/*ボタンがタップされた時の処理 */},
                     ),
-                  );
-                }),
+                  ],
+                ),
+              ),
+            ),
+            /* 豚肉の炒めの欄の表示 */
+            Card(
+              child: ListTile(
+                title: Text('豚肉の炒め'),
+                subtitle: Text("残り賞味期限まで5日"),
+                trailing: Column(
+                  children: [
+                    Icon(Icons.cached, size: 15),
+                    ElevatedButton(
+                      child: Text("作り置き"),
+                      onPressed: () {/*ボタンがタップされた時の処理 */},
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
