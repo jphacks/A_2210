@@ -4,10 +4,10 @@ import 'package:frontend/main.dart';
 import '/common/AddButton.dart';
 import '/page/home/manual_register.dart';
 import 'package:flutter/cupertino.dart';
-import '/page/home/detail_ingredient.dart';
+import '/page/home/home_detailFood.dart';
 
 Widget HomeContent(
-    BuildContext context, List dataList, Function fetchIngredient) {
+    BuildContext context, List? dataList, Function fetchIngredient) {
   List<String> ExpiryDateList = [
     '2022/02/02',
     '2021/10/03',
@@ -146,11 +146,11 @@ Widget HomeContent(
                   },
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
+                      /* Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => DetailIngredient()),
-                      );
+                      ); */
                     },
                     child: Card(
                       child: ListTile(
@@ -167,6 +167,7 @@ Widget HomeContent(
             },
           ),
         ),
+        Text(dataList.toString())
       ],
     ),
   );

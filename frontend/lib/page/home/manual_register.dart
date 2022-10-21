@@ -137,6 +137,7 @@ class _ManualRegister extends State<ManualRegister> {
               ),
             ),
           ),
+          Text(widget.dataList.toString()),
           //TODO: 日付が入力されていない場合のエラー出力
           OutlinedButton(
               onPressed: () => {postIngredient(), Navigator.pop(context)},
