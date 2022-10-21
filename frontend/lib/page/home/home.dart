@@ -4,6 +4,7 @@ import 'package:frontend/main.dart';
 import '/common/AddButton.dart';
 import '/page/home/manual_register.dart';
 import 'package:flutter/cupertino.dart';
+import '/page/home/detail_ingredient.dart';
 
 Widget HomeContent(
     BuildContext context, List dataList, Function fetchIngredient) {
@@ -131,30 +132,38 @@ Widget HomeContent(
             itemCount: StoreList.length,
             itemBuilder: (BuildContext context, int index) {
               return Dismissible(
-                key: UniqueKey(),
-                onDismissed: (direction) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('「${StoreList[index]}」を削除しました'),
-                      action: SnackBarAction(
-                        label: '元に戻す',
-                        onPressed: () {},
+                  key: UniqueKey(),
+                  onDismissed: (direction) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('「${StoreList[index]}」を削除しました'),
+                        action: SnackBarAction(
+                          label: '元に戻す',
+                          onPressed: () {},
+                        ),
+                      ),
+                    );
+                  },
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailIngredient()),
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text('${ImagesList[index]}\n'),
+                        trailing: Column(
+                          children: [
+                            Text('${StoreList[index]}'),
+                            Text('${ExpiryDateList[index]}'),
+                          ],
+                        ),
                       ),
                     ),
-                  );
-                },
-                child: Card(
-                  child: ListTile(
-                    title: Text('${ImagesList[index]}\n'),
-                    trailing: Column(
-                      children: [
-                        Text('${StoreList[index]}'),
-                        Text('${ExpiryDateList[index]}'),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+                  ));
             },
           ),
         ),
