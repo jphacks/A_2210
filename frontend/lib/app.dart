@@ -27,17 +27,20 @@ class _AppState extends State<App> {
   var _toggleList = <bool>[false, false];
   List<String> ingredientsList = [];
   bool done = false;
+  String? _isSelectedItem;
+
+  void onChanged(String value) {
+    setState(() {
+      _isSelectedItem = value;
+    });
+  }
 
   void fetchIngredients() async {
     final dio = Dio();
     final id = dotenv.get('APPLICATION_ID');
     final key = dotenv.get('API_KEY');
     final url = 'https://api.airtable.com/v0/$id/ingredients';
-<<<<<<< HEAD
-    List list = [];
-=======
     List<String> list = [];
->>>>>>> fc89903860f3afdbefcf925ab0c601a9765717f2
     final response = await dio.get(url,
         options: Options(
           headers: {"Authorization": "Bearer $key"},
@@ -60,6 +63,7 @@ class _AppState extends State<App> {
   }
 
   void _onItemTapped(int index) {
+    fetchIngredients();
     setState(() {
       _selectedIndex = index;
     });
@@ -92,7 +96,8 @@ class _AppState extends State<App> {
                   _toggleList,
                   done)
               : _selectedIndex == 1
-                  ? RecipeContent(context, widget.ingredientsStockList)
+                  ? RecipeContent(
+                      context, ingredientsList, _isSelectedItem, onChanged)
                   : _selectedIndex == 2
                       ? MealContent('レシピで寸', context)
                       //TODO: snackbarに変更

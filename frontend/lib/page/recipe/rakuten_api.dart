@@ -5,7 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class RakutenApi extends StatefulWidget {
-  const RakutenApi({super.key});
+  final String? isSelectedItem;
+  const RakutenApi({super.key, this.isSelectedItem});
 
   @override
   State<RakutenApi> createState() => _RakutenApi();
@@ -22,13 +23,12 @@ class _RakutenApi extends State<RakutenApi> {
     final url =
         'https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426?${parm}';
     final response = await dio.get(url);
-    final target = "じゃがいも";
 
     if (response.statusCode == 200) {
       try {
         final data = response.data["result"]["small"];
         for (var i = 0; i < data.length; i++) {
-          if (data[i]["categoryName"] == target) {
+          if (data[i]["categoryName"] == widget.isSelectedItem) {
             setState(() {
               recipeUrl = data[i]["categoryUrl"];
             });

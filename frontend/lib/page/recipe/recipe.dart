@@ -3,7 +3,8 @@ import 'add_conditions.dart';
 import '../meal_prep_list/meal_prep_list.dart';
 import 'package:frontend/page/recipe/rakuten_api.dart';
 
-Widget RecipeContent(BuildContext context, List ingredientsStockList) {
+Widget RecipeContent(BuildContext context, List ingredientsList,
+    String? _isSelectedItem, Function onChanged) {
   /* cardのtitleに入れられるリスト。
     料理名が格納されている。
    */
@@ -88,6 +89,29 @@ Widget RecipeContent(BuildContext context, List ingredientsStockList) {
                 ),
               ),
             ), */
+          DropdownButton(
+            items: [
+              for (var j = 0; j < ingredientsList.length; j++)
+                DropdownMenuItem(
+                  child: Text(ingredientsList[j]),
+                  value: ingredientsList[j],
+                )
+            ],
+            onChanged: (value) {
+              onChanged(value);
+            },
+            value: _isSelectedItem,
+          ),
+          OutlinedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          RakutenApi(isSelectedItem: _isSelectedItem)),
+                );
+              },
+              child: Text('次へ'))
         ]),
       ),
     ],
