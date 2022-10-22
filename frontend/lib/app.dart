@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/page/home/home_detailFood.dart';
+import 'package:frontend/page/recipe/rakuten_api.dart';
 import 'page/home/home.dart';
-
 import 'page/meal_prep_list/meal_prep_list.dart';
-
 import 'page/recipe/recipe.dart';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:frontend/page/recipe/rakuten_api.dart';
 
 class App extends StatefulWidget {
   final List ingredientsStockList;
@@ -28,6 +27,13 @@ class _AppState extends State<App> {
   var _toggleList = <bool>[false, false];
   List<String> ingredientsList = [];
   bool done = false;
+  String? _isSelectedItem;
+
+  void onChanged(String value) {
+    setState(() {
+      _isSelectedItem = value;
+    });
+  }
 
   void fetchIngredients() async {
     final dio = Dio();
@@ -57,6 +63,7 @@ class _AppState extends State<App> {
   }
 
   void _onItemTapped(int index) {
+    fetchIngredients();
     setState(() {
       _selectedIndex = index;
     });
@@ -100,11 +107,9 @@ class _AppState extends State<App> {
           // 引数が多くなってしまうため、Widget化せずに直接書く
           // switch文が使えないから三項演算子で書いてるけど、もっといい方法ある？
 
-
           /// 提案：
           /// 拙いですがこんな感じでどうでしょうか？
           child: switchHome[0]),
-
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

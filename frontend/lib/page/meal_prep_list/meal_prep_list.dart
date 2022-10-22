@@ -37,7 +37,7 @@ class _MealListPage extends State<MealListPage> {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => AddMealPage()))
               .then((newMeal) {
-            if (newMeal != null&& newMeal.name.length > 0) {
+            if (newMeal != null && newMeal.name.length > 0) {
               addNewTask(newMeal);
             }
           });
@@ -69,7 +69,6 @@ class _MealListPage extends State<MealListPage> {
   addNewTask(Meal newMeal) {
     setState(() => mealList.add(newMeal));
   }
-
 }
 
 class MealCard extends StatelessWidget {
@@ -97,12 +96,10 @@ class MealCard extends StatelessWidget {
           Container(
               alignment: Alignment.centerRight,
               child: ElevatedButton(
-                onPressed: () {
-                  //編集ボタンを押すときの処理
-                }, 
-                child: Text('編集')
-              )
-          )
+                  onPressed: () {
+                    //編集ボタンを押すときの処理
+                  },
+                  child: Text('編集')))
         ],
       ),
     );
