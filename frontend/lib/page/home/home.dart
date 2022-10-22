@@ -13,13 +13,15 @@ const int thretholdAttention = 4; // 「注意」表示日数
 const int thretholdHazard = 2; // 「警告」表示日数
 
 Widget HomeContent(
-    BuildContext context,
-    List ingredientsStockList,
-    Function fetchIngredientsStock,
-    List ingredientsList,
-    Function fetchIngredients,
-    Function toggleButtonOnPressed,
-    List<bool> _toggleList) {
+  BuildContext context,
+  List ingredientsStockList,
+  Function fetchIngredientsStock,
+  List<String> ingredientsList,
+  Function fetchIngredients,
+  Function toggleButtonOnPressed,
+  List<bool> _toggleList,
+  bool done,
+) {
   //仮のテスト用変数
 
   bool vertical = false;
@@ -40,15 +42,17 @@ Widget HomeContent(
         ), */
         AddButton(() {
           fetchIngredients();
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ManualRegister(
+          if (done == true) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ManualRegister(
                     ingredientsList: ingredientsList,
                     fetchIngredients: fetchIngredients,
-                    ingredientsStockList: ingredientsStockList,
-                    fetchIngredientsStock: fetchIngredientsStock),
-              ));
+                  ),
+                ));
+            done == false;
+          }
         }, "hero2")
       ],
     ),
