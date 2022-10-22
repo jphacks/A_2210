@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/page/home/home_detailFood.dart';
-import 'package:frontend/page/meal_prep_list/rakuten_api.dart';
+import 'package:frontend/page/recipe/rakuten_api.dart';
 import 'page/home/home.dart';
 import 'page/meal_prep_list/meal_prep_list.dart';
 import 'page/recipe/recipe.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:frontend/page/meal_prep_list/rakuten_api.dart';
+import 'package:frontend/page/recipe/rakuten_api.dart';
 
 class App extends StatefulWidget {
   final List ingredientsStockList;
@@ -51,15 +51,9 @@ class _AppState extends State<App> {
   }
 
   void _onItemTapped(int index) {
-    if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => RakutenApi()),
-      );
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   void toggleButtonOnPressed(int index) {
