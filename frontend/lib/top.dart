@@ -44,14 +44,20 @@ class _TopPage extends State<TopPage> {
             child: Column(children: [
       SizedBox(height: 150),
       Text(
-        "kondate\nmanager",
-        style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800),
+        "kondate",
+        style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800, fontFamily: 'Comfortaa'),
       ),
+      Text(
+        "maneger",
+        style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800, fontFamily: 'Comfortaa'),
+      ),
+      SizedBox(height: 100),
       OutlinedButton(
           onPressed: () {
             fetchIngredientsStock();
           },
           child: Text('api通信')),
+      SizedBox(height: 25),
       OutlinedButton(
           onPressed: () {
             Navigator.push(
