@@ -15,20 +15,6 @@ bool canCook = true;
 /// 残り日数
 int daysRemain = 5;
 
-/// 食材リスト
-List<String> foodList = [
-  "にんじん",
-  "じゃがいも",
-  "トマト",
-  "ピーマン",
-  "パプリカ",
-  "てんさい",
-  "ビート",
-  "ニンニク",
-  "ぶどう",
-  "サンマ"
-];
-
 /// 数量
 int quantity = 5;
 
@@ -63,13 +49,14 @@ Widget detailFood(BuildContext context, Size screenSize) {
   const Color dialogColorDeleteBg = Color.fromARGB(255, 228, 40, 59);
 
   /// topのmargin
-  const double topMarginNormal = 15;
-  const double topMarginLong = 25;
-  const double topMarginShort = 4;
-  const double topMarginVeryShort = 2;
+  double topMarginNormal = heightOfPictureArea * (1 / 5);
+  double topMarginLong = heightOfPictureArea * (1 / 3);
+  double topMarginVeryLong = heightOfPictureArea * (1 / 2.2);
+  double topMarginShort = heightOfPictureArea * (1 / 15);
+  double topMarginVeryShort = heightOfPictureArea * (1 / 20);
 
   /// bottomのmargin
-  const double bottomMarginNormal = 8;
+  const double bottomMarginNormal = 3;
 
   /// インジケータ表示部の文字色
   Color colorsForTextAttension = attensionTextColor(daysRemain);
@@ -87,7 +74,7 @@ Widget detailFood(BuildContext context, Size screenSize) {
       },
       child: Scaffold(
           body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
             /// 「戻る」ボタンの表示
@@ -111,7 +98,7 @@ Widget detailFood(BuildContext context, Size screenSize) {
             /// 「調理可(or不可)」ラベル・残り日数インジケータ
             Center(
                 child: Container(
-                    margin: const EdgeInsets.only(top: topMarginShort),
+                    margin: EdgeInsets.only(top: topMarginShort),
                     child: SizedBox(
                         width: widthOfPictureArea,
                         child: Row(
@@ -152,7 +139,7 @@ Widget detailFood(BuildContext context, Size screenSize) {
             /// 食品画像等の表示 (要差し替え)
             Center(
                 child: Container(
-                    margin: const EdgeInsets.only(top: topMarginShort),
+                    margin: EdgeInsets.only(top: topMarginShort),
                     color: Colors.blueGrey,
                     width: widthOfPictureArea,
                     height: heightOfPictureArea,
@@ -162,7 +149,7 @@ Widget detailFood(BuildContext context, Size screenSize) {
             /// 残り日数表示部
             Center(
                 child: Card(
-              margin: const EdgeInsets.only(top: topMarginNormal),
+              margin: EdgeInsets.only(top: topMarginNormal),
               elevation: 6,
               child: Container(
                 decoration: BoxDecoration(
@@ -187,28 +174,6 @@ Widget detailFood(BuildContext context, Size screenSize) {
               ),
             )),
 
-            /// 「食材」表示部
-            Center(
-                child: GestureDetector(
-              onTap: () {
-                showDialog<void>(
-                  context: context,
-                  builder: (_) {
-                    return dialogDetail(
-                        context, "食材", convertFoodListToString(foodList));
-                  },
-                );
-              },
-              child: EachInfomation(
-                label: "食材",
-                content: convertFoodListToString(foodList),
-                widthOfPictureArea: widthOfPictureArea,
-                paddingLeft: 0,
-                topMarginNormal: topMarginNormal,
-                topMarginVeryShort: topMarginVeryShort,
-              ),
-            )),
-
             /// 「数量」表示部
             Center(
                 child: GestureDetector(
@@ -226,8 +191,8 @@ Widget detailFood(BuildContext context, Size screenSize) {
                       content: quantity.toString(),
                       widthOfPictureArea: widthOfPictureArea,
                       paddingLeft: 2,
-                      topMarginNormal: topMarginNormal,
-                      topMarginVeryShort: topMarginVeryShort,
+                      topMarginBetweenContent: topMarginLong,
+                      topMarginBetweenText: topMarginVeryShort,
                     ))),
 
             /// 「コメント」表示部
@@ -245,16 +210,16 @@ Widget detailFood(BuildContext context, Size screenSize) {
                       label: "コメント",
                       content: comment,
                       widthOfPictureArea: widthOfPictureArea,
-                      paddingLeft: 0,
-                      topMarginNormal: topMarginNormal,
-                      topMarginVeryShort: topMarginVeryShort,
+                      paddingLeft: 1,
+                      topMarginBetweenContent: topMarginNormal,
+                      topMarginBetweenText: topMarginVeryShort,
                     ))),
 
             /// 「編集」および「削除」ボタン
             Center(
                 child: Container(
-                    margin: const EdgeInsets.only(
-                        top: topMarginLong, bottom: bottomMarginNormal),
+                    margin: EdgeInsets.only(
+                        top: topMarginVeryLong, bottom: bottomMarginNormal),
                     width: widthOfPictureArea * (2 / 3),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -374,12 +339,7 @@ Color attensionTextColor(int daysRemain) {
   }
 }
 
-/// 食材リストをテキストに加工 (実験)
-String convertFoodListToString(List<String> foodList) {
-  return foodList.join("、");
-}
-
-/// 各情報(食材、数量、コメント)の詳細確認ダイアログ
+/// 各情報(数量、コメント)の詳細確認ダイアログ
 Widget dialogDetail(BuildContext context, String title, String description) {
   return AlertDialog(
     title: Text(title),
@@ -419,14 +379,14 @@ Widget dialogDelete(BuildContext context, String title, String description,
 }
 
 /// ---
-/// 各情報(食材、数量、コメント)を表示するためのクラス
+/// 各情報(数量、コメント)を表示するためのクラス
 class EachInfomation extends StatelessWidget {
   final String label;
   final String content;
   final double widthOfPictureArea;
   final double paddingLeft;
-  final double topMarginNormal;
-  final double topMarginVeryShort;
+  final double topMarginBetweenContent;
+  final double topMarginBetweenText;
 
   const EachInfomation(
       {super.key,
@@ -434,14 +394,14 @@ class EachInfomation extends StatelessWidget {
       required this.content,
       required this.widthOfPictureArea,
       required this.paddingLeft,
-      required this.topMarginNormal,
-      required this.topMarginVeryShort});
+      required this.topMarginBetweenContent,
+      required this.topMarginBetweenText});
 
   @override
   Widget build(BuildContext context) {
     return Card(
         elevation: 0,
-        margin: EdgeInsets.only(top: topMarginNormal),
+        margin: EdgeInsets.only(top: topMarginBetweenContent),
         child: SizedBox(
           width: widthOfPictureArea,
           child: Container(
@@ -459,7 +419,7 @@ class EachInfomation extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: paddingLeft),
                       child: Container(
-                          margin: EdgeInsets.only(top: topMarginVeryShort),
+                          margin: EdgeInsets.only(top: topMarginBetweenText),
                           child: Text(content,
                               textAlign: TextAlign.left,
                               maxLines: 1,
