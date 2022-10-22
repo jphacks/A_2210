@@ -22,7 +22,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _selectedIndex = 0;
+  static int _selectedIndex = 0; // (提案手法では)この変数をstaticにする必要があります
   List<String> titleList = ["ホーム", "レシピ", "作り置きリスト"];
   List iconList = [Icons.home, Icons.search, Icons.school];
   var _toggleList = <bool>[false, false];
@@ -70,6 +70,27 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    /// 追加
+    /// ここで分岐してみました
+    List<Widget> switchHome = [
+      if (_selectedIndex == 0) ...[
+        HomeContent(
+            context,
+            widget.ingredientsStockList,
+            widget.fetchIngredientsStock,
+            ingredientsList,
+            fetchIngredients,
+            toggleButtonOnPressed,
+            _toggleList)
+      ] else if (_selectedIndex == 1) ...[
+        RecipeContent(context)
+      ] else if (_selectedIndex == 2) ...[
+        MealContent('レシピで寸', context)
+      ] else ...[
+        const Text('this is error')
+      ]
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(titleList[_selectedIndex]),
@@ -78,22 +99,12 @@ class _AppState extends State<App> {
       body: Center(
           // 引数が多くなってしまうため、Widget化せずに直接書く
           // switch文が使えないから三項演算子で書いてるけど、もっといい方法ある？
-          child: _selectedIndex == 0
-              ? HomeContent(
-                  context,
-                  widget.ingredientsStockList,
-                  widget.fetchIngredientsStock,
-                  ingredientsList,
-                  fetchIngredients,
-                  toggleButtonOnPressed,
-                  _toggleList,
-                  done)
-              : _selectedIndex == 1
-                  ? RecipeContent(context)
-                  : _selectedIndex == 2
-                      ? MealContent('レシピで寸', context)
-                      //TODO: snackbarに変更
-                      : Text('this is error')),
+
+
+          /// 提案：
+          /// 拙いですがこんな感じでどうでしょうか？
+          child: switchHome[0]),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
