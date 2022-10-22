@@ -32,6 +32,7 @@ class _AppState extends State<App> {
     final id = dotenv.get('APPLICATION_ID');
     final key = dotenv.get('API_KEY');
     final url = 'https://api.airtable.com/v0/$id/ingredients';
+    List list = [];
     final response = await dio.get(url,
         options: Options(
           headers: {"Authorization": "Bearer $key"},
@@ -82,7 +83,7 @@ class _AppState extends State<App> {
                   toggleButtonOnPressed,
                   _toggleList)
               : _selectedIndex == 1
-                  ? RecipeContent(context)
+                  ? RecipeContent(context, widget.ingredientsStockList)
                   : _selectedIndex == 2
                       ? MealContent('レシピで寸', context)
                       //TODO: snackbarに変更
