@@ -13,6 +13,7 @@ class TopPage extends StatefulWidget {
 class _TopPage extends State<TopPage> {
   // TODO : dataListの型定義
   List ingredientsStockList = [];
+  bool done = false;
 
   void fetchIngredientsStock() async {
     final dio = Dio();
@@ -29,6 +30,7 @@ class _TopPage extends State<TopPage> {
         final data = response.data;
         setState(() {
           ingredientsStockList = data["records"];
+          done = true;
         });
         print(ingredientsStockList);
       } catch (e) {
@@ -44,23 +46,29 @@ class _TopPage extends State<TopPage> {
             child: Column(children: [
       SizedBox(height: 150),
       Text(
-        "kondate\nmanager",
-        style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800),
+        "kondate",
+        style: TextStyle(
+            fontSize: 40, fontWeight: FontWeight.w800, fontFamily: 'Comfortaa'),
       ),
+      Text(
+        "maneger",
+        style: TextStyle(
+            fontSize: 40, fontWeight: FontWeight.w800, fontFamily: 'Comfortaa'),
+      ),
+      SizedBox(height: 150),
       OutlinedButton(
           onPressed: () {
             fetchIngredientsStock();
-          },
-          child: Text('api通信')),
-      OutlinedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => App(
-                      ingredientsStockList: ingredientsStockList,
-                      fetchIngredientsStock: fetchIngredientsStock)),
-            );
+            if (done == true) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => App(
+                        ingredientsStockList: ingredientsStockList,
+                        fetchIngredientsStock: fetchIngredientsStock)),
+              );
+              done = true;
+            }
           },
           child: Text('スタート')),
       /* SizedBox(
