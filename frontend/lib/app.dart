@@ -26,23 +26,28 @@ class _AppState extends State<App> {
   List<String> titleList = ["ホーム", "レシピ", "作り置きリスト"];
   List iconList = [Icons.home, Icons.search, Icons.school];
   var _toggleList = <bool>[false, false];
-  List ingredientsList = [];
+  List<String> ingredientsList = [];
+  bool done = false;
 
   void fetchIngredients() async {
     final dio = Dio();
     final id = dotenv.get('APPLICATION_ID');
     final key = dotenv.get('API_KEY');
     final url = 'https://api.airtable.com/v0/$id/ingredients';
+    List<String> list = [];
     final response = await dio.get(url,
         options: Options(
           headers: {"Authorization": "Bearer $key"},
         ));
-
     if (response.statusCode == 200) {
       try {
         final data = response.data;
+        for (var i = 0; i < data["records"].length; i++) {
+          list.add(data["records"][i]["fields"]["name"]);
+        }
         setState(() {
-          ingredientsList = data["records"];
+          ingredientsList = list;
+          done = true;
         });
         print('ingredient通信成功');
       } catch (e) {
@@ -81,7 +86,8 @@ class _AppState extends State<App> {
                   ingredientsList,
                   fetchIngredients,
                   toggleButtonOnPressed,
-                  _toggleList)
+                  _toggleList,
+                  done)
               : _selectedIndex == 1
                   ? RecipeContent(context)
                   : _selectedIndex == 2
