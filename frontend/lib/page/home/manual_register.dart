@@ -6,30 +6,28 @@ import '/common/ToggleButtons.dart';
 import 'package:frontend/app.dart';
 
 class ManualRegister extends StatefulWidget {
-  final List ingredientsList;
+  final List<String> ingredientsList;
   final Function fetchIngredients;
-  final List ingredientsStockList;
-  final Function fetchIngredientsStock;
-  const ManualRegister(
-      {super.key,
-      required this.fetchIngredients,
-      required this.ingredientsList,
-      required this.fetchIngredientsStock,
-      required this.ingredientsStockList});
+  const ManualRegister({
+    super.key,
+    required this.fetchIngredients,
+    required this.ingredientsList,
+  });
 
   @override
   State<ManualRegister> createState() => _ManualRegister();
 }
 
 class _ManualRegister extends State<ManualRegister> {
-  List<String> ingredientNameList = ["未選択"];
-  String? _isSelectedItem = "未選択";
+  /*  List<String> ingredientNameList = ["未選択"]; */
+  String? _isSelectedItem;
   double _volume = 0;
   TextEditingController _date = TextEditingController(text: "");
   String? _formatedDate;
   String? _memo = "";
   var _toggleList = <bool>[false, false];
   bool done = false;
+  List ingredientsStockList = [];
 
   void postIngredient() async {
     final dio = Dio();
@@ -65,6 +63,30 @@ class _ManualRegister extends State<ManualRegister> {
     }
   }
 
+  void fetchIngredientsStock() async {
+    final dio = Dio();
+    final id = dotenv.get('APPLICATION_ID');
+    final key = dotenv.get('API_KEY');
+    final url = 'https://api.airtable.com/v0/$id/ingredients-stock';
+    final response = await dio.get(url,
+        options: Options(
+          headers: {"Authorization": "Bearer $key"},
+        ));
+
+    if (response.statusCode == 200) {
+      try {
+        final data = response.data;
+        setState(() {
+          ingredientsStockList = data["records"];
+          done = true;
+        });
+        print(ingredientsStockList);
+      } catch (e) {
+        throw e;
+      }
+    }
+  }
+
   void toggleButtonOnPressed(int index) {
     setState(() {
       _toggleList[index] = !_toggleList[index];
@@ -79,31 +101,58 @@ class _ManualRegister extends State<ManualRegister> {
         ),
         body: Center(
             child: Column(children: [
-          ToggleButton(_toggleList, toggleButtonOnPressed),
-          SizedBox(height: 30),
-          DropdownButton(
-            items: [
-              for (var j = 0; j < ingredientNameList.length; j++)
-                DropdownMenuItem(
-                  child: Text(ingredientNameList[j]),
-                  value: ingredientNameList[j],
-                )
-            ],
-            onChanged: (value) {
-              setState(() {
-                _isSelectedItem = value;
-              });
-            },
-            value: _isSelectedItem,
-          ),
-          SizedBox(height: 30),
-          Row(
+
+          Column(
             children: [
-              if (_volume > 0)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("食材名"),
+                  DropdownButton(
+                    items: [
+                      for (var j = 0; j < ingredientNameList.length; j++)
+                        DropdownMenuItem(
+                          child: Text(ingredientNameList[j]),
+                          value: ingredientNameList[j],
+                        )
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        _isSelectedItem = value;
+                      });
+                    },
+                    value: _isSelectedItem,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("カテゴリ"),
+                  ToggleButton(_toggleList, toggleButtonOnPressed),
+                ],
+              ),
+
+            ],
+          ),
+          //カテゴリと個数の間隔
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "個数",
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(width: 30),
+              if (_volume >= 0)
                 OutlinedButton(
                     onPressed: () {
                       setState(() {
-                        _volume = _volume - 0.5;
+                        _volume == 0
+                            ? null
+                            : _volume =
+                                _volume - 0.5; //_volume = _volume - 0.5;
                       });
                     },
                     child: Icon(Icons.remove)),
@@ -114,7 +163,7 @@ class _ManualRegister extends State<ManualRegister> {
                       _volume = _volume + 0.5;
                     });
                   },
-                  child: Icon(Icons.add))
+                  child: Icon(Icons.add)),
             ],
           ),
           TextField(
@@ -173,19 +222,22 @@ class _ManualRegister extends State<ManualRegister> {
           ),
           //TODO: 日付が入力されていない場合のエラー出力
           OutlinedButton(
-              onPressed: () => {
-                    postIngredient(),
-                    widget.fetchIngredientsStock(),
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => App(
-                              ingredientsStockList: widget.ingredientsStockList,
-                              fetchIngredientsStock:
-                                  widget.fetchIngredientsStock)),
-                    )
-                  },
+              onPressed: () {
+                fetchIngredientsStock();
+                if (done == true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => App(
+                            ingredientsStockList: ingredientsStockList,
+                            fetchIngredientsStock: fetchIngredientsStock)),
+                  );
+                  postIngredient();
+                  done = false;
+                }
+              },
               child: Text('確定')),
+          Text(widget.ingredientsList.toString())
         ])));
   }
 }
