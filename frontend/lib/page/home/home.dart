@@ -74,7 +74,13 @@ Widget HomeContent(
                 height: 200,
               ),
               Center(
-                child: Text('まずは登録してみよう！！'),
+                child: Text(
+                  'まずは登録してみよう！！',
+                  /*まずは登録してみようの大きさの変更 */
+                  style: TextStyle(
+                    fontSize: 30,
+                  ),
+                ),
               )
             ]),
           if (ingredientsStockList.length >= 1)

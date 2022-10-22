@@ -67,7 +67,8 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleList[_selectedIndex]),
+        title: Text(titleList[_selectedIndex],
+            style: TextStyle(fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: false,
       ),
       body: Center(
