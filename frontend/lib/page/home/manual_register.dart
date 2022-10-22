@@ -79,31 +79,56 @@ class _ManualRegister extends State<ManualRegister> {
         ),
         body: Center(
             child: Column(children: [
-          ToggleButton(_toggleList, toggleButtonOnPressed),
-          SizedBox(height: 30),
-          DropdownButton(
-            items: [
-              for (var j = 0; j < ingredientNameList.length; j++)
-                DropdownMenuItem(
-                  child: Text(ingredientNameList[j]),
-                  value: ingredientNameList[j],
-                )
-            ],
-            onChanged: (value) {
-              setState(() {
-                _isSelectedItem = value;
-              });
-            },
-            value: _isSelectedItem,
-          ),
-          SizedBox(height: 30),
-          Row(
+          Column(
             children: [
-              if (_volume > 0)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("食材名"),
+                  DropdownButton(
+                    items: [
+                      for (var j = 0; j < ingredientNameList.length; j++)
+                        DropdownMenuItem(
+                          child: Text(ingredientNameList[j]),
+                          value: ingredientNameList[j],
+                        )
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        _isSelectedItem = value;
+                      });
+                    },
+                    value: _isSelectedItem,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("カテゴリ"),
+                  ToggleButton(_toggleList, toggleButtonOnPressed),
+                ],
+              ),
+            ],
+          ),
+          //カテゴリと個数の間隔
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "個数",
+                textAlign: TextAlign.left,
+              ),
+              SizedBox(width: 30),
+              if (_volume >= 0)
                 OutlinedButton(
                     onPressed: () {
                       setState(() {
-                        _volume = _volume - 0.5;
+                        _volume == 0
+                            ? null
+                            : _volume =
+                                _volume - 0.5; //_volume = _volume - 0.5;
                       });
                     },
                     child: Icon(Icons.remove)),
@@ -114,7 +139,7 @@ class _ManualRegister extends State<ManualRegister> {
                       _volume = _volume + 0.5;
                     });
                   },
-                  child: Icon(Icons.add))
+                  child: Icon(Icons.add)),
             ],
           ),
           TextField(
