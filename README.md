@@ -1,6 +1,6 @@
 # こんだ Tech
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2022/08/JPHACKS2022_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)
+<img src="https://user-images.githubusercontent.com/70579191/197320107-39b4e070-d7c2-4f42-b335-b4c4801cf3a5.png" width="1000px">
 
 ## 製品概要
 ### 背景(製品開発のきっかけ、課題等)
@@ -25,9 +25,6 @@
 
 ### 解決出来ること
 1.作り置きにある料理の経過日数が3日以上になれば、色が変化するため、料理が腐る前に気づくことができる。
-
-
-2.食材の在庫がわかるので、食材を間違って買ったり、家にどの食材があるかわからないということを解決することができる。
 
 
 3.レシピが自動で出てくるので、献立を考えなくてよい。
