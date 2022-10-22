@@ -6,7 +6,7 @@ Widget RecipeContent(BuildContext context) {
   /* cardのtitleに入れられるリスト。
     料理名が格納されている。
    */
-  List<String> recipe_name = ["生姜焼き", "豚肉の炒め"];
+  List<String> recipe_name = ["じゃがいも", "にんじん"];
   /* cardのTextに入れられるリスト。
     賞味期限までの日数が格納されている。 */
   List<int> term = [3, 5];

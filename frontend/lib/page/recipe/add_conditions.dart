@@ -40,12 +40,12 @@ class _AddConditions extends State<AddConditions> {
           Row(
             children: [
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('カニ',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -56,12 +56,12 @@ class _AddConditions extends State<AddConditions> {
               ),
               SizedBox(width: 20.0),
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('たまご',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 12,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -72,12 +72,12 @@ class _AddConditions extends State<AddConditions> {
               ),
               SizedBox(width: 20.0),
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('小麦',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -99,12 +99,12 @@ class _AddConditions extends State<AddConditions> {
           Row(
             children: [
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('朝食',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -115,12 +115,12 @@ class _AddConditions extends State<AddConditions> {
               ),
               SizedBox(width: 20.0),
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('昼食',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -131,12 +131,12 @@ class _AddConditions extends State<AddConditions> {
               ),
               SizedBox(width: 20.0),
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('夜食',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -147,12 +147,12 @@ class _AddConditions extends State<AddConditions> {
               ),
               SizedBox(width: 20.0),
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('間食',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -174,12 +174,12 @@ class _AddConditions extends State<AddConditions> {
           Row(
             children: [
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('主菜',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -190,12 +190,12 @@ class _AddConditions extends State<AddConditions> {
               ),
               SizedBox(width: 20.0),
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('副菜',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
@@ -206,12 +206,12 @@ class _AddConditions extends State<AddConditions> {
               ),
               SizedBox(width: 20.0),
               Container(
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 child: ElevatedButton(
                   child: Text('汁物',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                         color: Colors.black,
                       )),
                   onPressed: () {},
