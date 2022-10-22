@@ -8,6 +8,7 @@ import 'package:frontend/page/home/home_detailFood.dart';
 import 'package:frontend/common/AddButton.dart';
 import 'home_detailFood.dart';
 import '/common/ToggleButtons.dart';
+import 'package:frontend/app.dart';
 
 const int thretholdAttention = 4; // 「注意」表示日数
 const int thretholdHazard = 2; // 「警告」表示日数
@@ -67,6 +68,20 @@ Widget HomeContent(
               ),
               //TODO：両方押さない機能
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                IconButton(
+                  icon: Icon(Icons.refresh),
+                  onPressed: () {
+                    fetchIngredients();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => App(
+                              ingredientsStockList: ingredientsStockList,
+                              fetchIngredientsStock: fetchIngredientsStock)),
+                    );
+                  },
+                ),
+                SizedBox(width: 20),
                 ToggleButton(_toggleList, toggleButtonOnPressed),
               ]),
             ],

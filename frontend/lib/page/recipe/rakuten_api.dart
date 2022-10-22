@@ -36,13 +36,21 @@ class _RakutenApi extends State<RakutenApi> {
         }
         ;
         print(recipeUrl);
+        final uri = Uri.parse(recipeUrl);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(
+            uri,
+          );
+        } else {
+          throw 'このURLにはアクセスできません';
+        }
       } catch (e) {
         throw e;
       }
     }
   }
 
-  void _openUrl() async {
+  /* void _openUrl() async {
     final uri = Uri.parse(recipeUrl);
     if (await canLaunchUrl(uri)) {
       await launchUrl(
@@ -51,17 +59,16 @@ class _RakutenApi extends State<RakutenApi> {
     } else {
       throw 'このURLにはアクセスできません';
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("レシピ詳細")),
-      body: Column(children: [
-        OutlinedButton(onPressed: _openUrl, child: Text('openUrl')),
-        OutlinedButton(onPressed: fetchRecipe, child: Text("api")),
-        Text(recipeUrl.toString())
-      ]),
-    );
+        appBar: AppBar(title: Text("レシピ詳細")),
+        body: Center(
+          child: Column(children: [
+            OutlinedButton(onPressed: fetchRecipe, child: Text('openUrl')),
+          ]),
+        ));
   }
 }

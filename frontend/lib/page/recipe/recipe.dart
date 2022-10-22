@@ -89,6 +89,7 @@ Widget RecipeContent(BuildContext context, List ingredientsList,
                 ),
               ),
             ), */
+          SizedBox(height: 60),
           DropdownButton(
             items: [
               for (var j = 0; j < ingredientsList.length; j++)
@@ -102,6 +103,7 @@ Widget RecipeContent(BuildContext context, List ingredientsList,
             },
             value: _isSelectedItem,
           ),
+          SizedBox(height: 90),
           OutlinedButton(
               onPressed: () {
                 Navigator.push(
