@@ -106,7 +106,8 @@ Widget HomeContent(
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeDetailFood()),
+                                  builder: (context) => detailFood(
+                                      context, MediaQuery.of(context).size)),
                             );
                           },
                           child: Card(
