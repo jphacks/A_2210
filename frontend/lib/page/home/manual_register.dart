@@ -20,7 +20,7 @@ class ManualRegister extends StatefulWidget {
 
 class _ManualRegister extends State<ManualRegister> {
   /*  List<String> ingredientNameList = ["未選択"]; */
-  String? _isSelectedItem = "未選択";
+  String? _isSelectedItem;
   double _volume = 0;
   TextEditingController _date = TextEditingController(text: "");
   String? _formatedDate;
@@ -198,7 +198,6 @@ class _ManualRegister extends State<ManualRegister> {
               onPressed: () {
                 fetchIngredientsStock();
                 if (done == true) {
-                  postIngredient();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -206,6 +205,7 @@ class _ManualRegister extends State<ManualRegister> {
                             ingredientsStockList: ingredientsStockList,
                             fetchIngredientsStock: fetchIngredientsStock)),
                   );
+                  postIngredient();
                   done = false;
                 }
               },

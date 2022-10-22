@@ -62,7 +62,6 @@ Widget HomeContent(
         children: [
           Column(
             children: [
-              Text(ingredientsList.toString()),
               SizedBox(
                 height: 10,
               ),

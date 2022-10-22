@@ -34,6 +34,7 @@ class _AppState extends State<App> {
     final id = dotenv.get('APPLICATION_ID');
     final key = dotenv.get('API_KEY');
     final url = 'https://api.airtable.com/v0/$id/ingredients';
+    List<String> list = [];
     final response = await dio.get(url,
         options: Options(
           headers: {"Authorization": "Bearer $key"},
@@ -41,8 +42,11 @@ class _AppState extends State<App> {
     if (response.statusCode == 200) {
       try {
         final data = response.data;
+        for (var i = 0; i < data["records"].length; i++) {
+          list.add(data["records"][i]["fields"]["name"]);
+        }
         setState(() {
-          ingredientsList = data["records"];
+          ingredientsList = list;
           done = true;
         });
         print('ingredient通信成功');
