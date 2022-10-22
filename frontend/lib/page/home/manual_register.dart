@@ -101,7 +101,6 @@ class _ManualRegister extends State<ManualRegister> {
         ),
         body: Center(
             child: Column(children: [
-
           Column(
             children: [
               Row(
@@ -110,10 +109,10 @@ class _ManualRegister extends State<ManualRegister> {
                   Text("食材名"),
                   DropdownButton(
                     items: [
-                      for (var j = 0; j < ingredientNameList.length; j++)
+                      for (var j = 0; j < widget.ingredientsList.length; j++)
                         DropdownMenuItem(
-                          child: Text(ingredientNameList[j]),
-                          value: ingredientNameList[j],
+                          child: Text(widget.ingredientsList[j]),
+                          value: widget.ingredientsList[j],
                         )
                     ],
                     onChanged: (value) {
@@ -132,7 +131,6 @@ class _ManualRegister extends State<ManualRegister> {
                   ToggleButton(_toggleList, toggleButtonOnPressed),
                 ],
               ),
-
             ],
           ),
           //カテゴリと個数の間隔
@@ -237,7 +235,6 @@ class _ManualRegister extends State<ManualRegister> {
                 }
               },
               child: Text('確定')),
-          Text(widget.ingredientsList.toString())
         ])));
   }
 }

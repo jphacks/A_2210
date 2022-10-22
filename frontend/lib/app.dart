@@ -88,9 +88,10 @@ class _AppState extends State<App> {
             ingredientsList,
             fetchIngredients,
             toggleButtonOnPressed,
-            _toggleList)
+            _toggleList,
+            done)
       ] else if (_selectedIndex == 1) ...[
-        RecipeContent(context)
+        RecipeContent(context, ingredientsList, _isSelectedItem, onChanged)
       ] else if (_selectedIndex == 2) ...[
         MealContent('レシピで寸', context)
       ] else ...[
