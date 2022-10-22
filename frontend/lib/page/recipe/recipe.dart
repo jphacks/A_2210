@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'add_conditions.dart';
 import '../meal_prep_list/meal_prep_list.dart';
+import 'package:frontend/page/recipe/rakuten_api.dart';
 
-Widget RecipeContent(BuildContext context) {
+Widget RecipeContent(BuildContext context, List ingredientsStockList) {
   /* cardのtitleに入れられるリスト。
     料理名が格納されている。
    */
@@ -85,36 +86,70 @@ Widget RecipeContent(BuildContext context) {
                   children: [
                     /*cachedのアイコン表示 */
                     Icon(Icons.cached, size: 15),
-                    ElevatedButton(
-                      child: Text("作り置き"),
-                      onPressed: () {
-                        /*ボタンがタップされた時の処理 */
-                      },
-                    ),
                   ],
                 ),
               ),
             ),
-            /* 豚肉の炒めの欄の表示 */
-            Card(
-              child: ListTile(
-                title: Text(recipe_name[1]),
-                subtitle: Text("残り賞味期限まで${term[1]}日"),
-                trailing: Column(
-                  children: [
-                    Icon(Icons.cached, size: 15),
-                    ElevatedButton(
-                      child: Text("作り置き"),
-                      onPressed: () {
-                        /*ボタンがタップされた時の処理
-                          meal_prep_list.dartの class MealListEditに飛んでいる。
-
-                          */
-                      },
-                    ),
-                  ],
-                ),
-              ),
+            ListView.builder(
+              itemCount: ingredientsStockList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Dismissible(
+                  //カードをスライドして削除出来るようにしている
+                  key: UniqueKey(),
+                  onDismissed: (direction) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        //削除したときに「元に戻す」スナックバー
+                        content: Text(
+                            '${ingredientsStockList[index]["fields"]["name"]}を削除しました'),
+                        action: SnackBarAction(
+                          label: '元に戻す',
+                          onPressed: () {},
+                        ),
+                      ),
+                    );
+                  },
+                  child: SizedBox(
+                      height: 70, //カードの大きさを変えた。
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeDetailFood()),
+                          );
+                        },
+                        child: Card(
+                          color: colorsForAttention[daysRemain], //賞味期限による色の変化
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: ingredientsStockList[index]["fields"]
+                                            ["image"] !=
+                                        null
+                                    ? SizedBox(
+                                        height: 110,
+                                        child: Image.network(
+                                            "${ingredientsStockList[index]["fields"]["image"][0]["url"]}"))
+                                    : Text("未設定"),
+                                title: Column(
+                                  children: [
+                                    Text(
+                                      '${ingredientsStockList[index]["fields"]["name"]}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                trailing: Text('調理可'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+                );
+              },
             ),
           ],
         ),

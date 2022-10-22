@@ -66,7 +66,7 @@ Widget MealContent(String s, context) {
                                 ),
                               ));
                             },
-                            child: Text('編集')))
+                            child: Text('編集'))),
                   ],
                 ),
               ),
